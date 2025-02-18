@@ -20,6 +20,9 @@ namespace UrduLanguageTools.Extensions
         {
             string modifiedText;
 
+            if (string.IsNullOrEmpty(text))
+                return string.Empty;
+
             do
             {
                 modifiedText = text.Replace("  ", " ");
