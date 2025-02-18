@@ -31,7 +31,7 @@ namespace UrduLanguageTools
                 if (isEndOfVerse)
                 {
                     var emptyLineStart = selection.Start;
-                    selection.TypeText($"{options.EmptyLineCharacter}{CharCode.ParagraphBreak}");
+                    selection.TypeText($"{CharCode.BraillePatternBlank}{CharCode.ParagraphBreak}");
                     var emptyLineEnd = selection.End;
                     var emptyLineRange = selection.Document.Range(emptyLineStart, emptyLineEnd);
                     emptyLineRange.Font.Size = 1;

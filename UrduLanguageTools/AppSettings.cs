@@ -7,8 +7,6 @@
         public bool AddToTableOfContents { get; set; } = true;
 
         public int LinesPerVerse { get; set; } = 2;
-
-        public char EmptyLineCharacter { get; set; } = CharCode.BraillePatternBlank;
     }
     
     public sealed class AppSettings

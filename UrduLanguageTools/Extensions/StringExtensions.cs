@@ -15,5 +15,20 @@ namespace UrduLanguageTools.Extensions
                    .Where(s => s.Length != 0)
                    .ToList();
         }
+
+        public static string RemoveMultipleSpaces(this string text)
+        {
+            string modifiedText;
+
+            do
+            {
+                modifiedText = text.Replace("  ", " ");
+                if (modifiedText == text)
+                    break;
+                text = modifiedText;
+            } while (true);
+
+            return modifiedText;
+        }
     }
 }

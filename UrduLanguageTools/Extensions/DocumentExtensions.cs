@@ -1,6 +1,4 @@
 ﻿using Microsoft.Office.Interop.Word;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace UrduLanguageTools
 {
@@ -18,11 +16,6 @@ namespace UrduLanguageTools
             {
                 return false;
             }
-        }
-
-        public static IReadOnlyCollection<string> GetStyleNames(this Document document)
-        {
-            return document.Styles.Cast<Style>().Select(s => s.NameLocal).ToList();
         }
     }
 }

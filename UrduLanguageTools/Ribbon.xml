@@ -3,11 +3,11 @@
     <ribbon>
         <tabs>
             <tab idMso="TabAddIns">
-                <group id="grpTools" label="Tools">
+                <group id="GroupTools" label="Tools">
                     <button id="Refresh" imageMso="Repeat" label="Refresh" onAction="Refresh_Clicked" />
                     <button id="RemoveMultipleSpaces" imageMso="Clear" label="Remove Multiple Spaces" onAction="RemoveMultipleSpaces_Clicked" />
                 </group>
-                <group id="grpGhazal" label="Ghazal">
+                <group id="GroupGhazal" label="Ghazal">
                     <button id="GhazalPaste" imageMso="Paste" label="Paste" onAction="GhazalPaste_Clicked"  />
                     <button id="GhazalFormat" imageMso="FormatPainter" label="Format" onAction="GhazalFormat_Clicked" />
                     
