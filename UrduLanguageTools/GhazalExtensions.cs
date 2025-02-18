@@ -22,18 +22,16 @@ namespace UrduLanguageTools
             var lineRanges = new List<Range>();
             for (var i = 0; i < lines.Count; i++)
             {
-                var isEndOfParagraph = i > 0 && (i + 1) % options.LinesPerVerse == 0;
+                var isEndOfVerse = i > 0 && (i + 1) % options.LinesPerVerse == 0;
                 var line = lines[i];
                 var start = selection.Start;
-                selection.TypeText(line);
-                selection.TypeText(CharCode.LineBreak.ToString());
+                selection.TypeText($"{line}{CharCode.LineBreak}");
                 var end = selection.End;
 
-                if (isEndOfParagraph)
+                if (isEndOfVerse)
                 {
                     var emptyLineStart = selection.Start;
-                    selection.TypeText(options.EmptyLineCharacter.ToString());
-                    selection.TypeText(CharCode.ParagraphBreak.ToString());
+                    selection.TypeText($"{options.EmptyLineCharacter}{CharCode.ParagraphBreak}");
                     var emptyLineEnd = selection.End;
                     var emptyLineRange = selection.Document.Range(emptyLineStart, emptyLineEnd);
                     emptyLineRange.Font.Size = 1;
