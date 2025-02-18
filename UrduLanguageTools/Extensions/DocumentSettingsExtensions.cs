@@ -9,9 +9,14 @@ namespace UrduLanguageTools
     {
         private static string GetSettingName<T>() => $"{nameof(UrduLanguageTools)}_{typeof(T).GetType().Name}";
 
-        public static T GetSettings<T>(this Document document, T defaultValue)
+        public static T GetSettings<T>(this Document document, T defaultValue = default)
             where T : new()
         {
+            if (defaultValue == null)
+            {
+                defaultValue = new T();
+            }
+            
             var settingName = GetSettingName<T>();
             var properties = (DocumentProperties)document.CustomDocumentProperties;
             try

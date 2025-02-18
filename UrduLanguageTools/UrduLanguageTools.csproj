@@ -217,6 +217,7 @@
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="GhazalExtensions.cs" />
+    <Compile Include="NasarExtensions.cs" />
     <Compile Include="NazamExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -226,11 +227,7 @@
     <Compile Include="Ribbon.cs">
         <XmlRibbon>true</XmlRibbon>
     </Compile>
-    <Compile Include="Ribbon.Ghazal.cs">
-      <DependentUpon>Ribbon.cs</DependentUpon>
-      <XmlRibbon>true</XmlRibbon>
-    </Compile>
-    <Compile Include="Ribbon.Nazam.cs">
+    <Compile Include="Ribbon.Settings.cs">
       <DependentUpon>Ribbon.cs</DependentUpon>
       <XmlRibbon>true</XmlRibbon>
     </Compile>

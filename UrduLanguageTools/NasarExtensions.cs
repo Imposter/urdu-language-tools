@@ -4,25 +4,25 @@ using Microsoft.Office.Interop.Word;
 
 namespace UrduLanguageTools
 {
-    public sealed class NazamOptions
+    public sealed class NasarOptions
     {
         public Style ParagraphStyle { get; set; }
         
         public bool AddToTableOfContents { get; set; }
     }
     
-    public static class NazamExtensions
+    public static class NasarExtensions
     {
-        public static IReadOnlyList<Range> InsertNazam(
+        public static IReadOnlyList<Range> InsertNasar(
             this Selection selection,
             IReadOnlyList<string> lines,
-            NazamOptions options)
+            NasarOptions options)
         {
             // Remove all the existing content and replace it with some content we're going to write
             selection.InsertParagraph();
             selection.set_Style(options.ParagraphStyle);
             selection.ParagraphFormat.ReadingOrder = WdReadingOrder.wdReadingOrderRtl;
-            selection.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
+            selection.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphJustify;
 
             // Insert line by line
             var lineRanges = new List<Range>();

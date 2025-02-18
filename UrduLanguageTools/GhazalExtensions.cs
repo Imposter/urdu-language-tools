@@ -3,7 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace UrduLanguageTools
-{    
+{
+    public sealed class GhazalOptions
+    {
+        public Style ParagraphStyle { get; set; }
+
+        public bool AddToTableOfContents { get; set; }
+
+        public int LinesPerVerse { get; set; }
+    }
+    
     public static class GhazalExtensions
     {
         public static IReadOnlyList<Range> InsertGhazal(
@@ -11,12 +20,11 @@ namespace UrduLanguageTools
             IReadOnlyList<string> lines,
             GhazalOptions options)
         {
-            var style = selection.Document.Styles[options.ParagraphStyle];
-
             // Remove all the existing content and replace it with some content we're going to write
             selection.InsertParagraph();
-            selection.set_Style(style);
+            selection.set_Style(options.ParagraphStyle);
             selection.ParagraphFormat.ReadingOrder = WdReadingOrder.wdReadingOrderRtl;
+            selection.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphJustify;
 
             // Insert line by line
             var lineRanges = new List<Range>();

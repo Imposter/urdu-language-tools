@@ -5,49 +5,59 @@
             <tab idMso="TabAddIns">
                 <group id="GroupTools" label="Tools">
                     <button id="Refresh" imageMso="Repeat" label="Refresh" onAction="Refresh_Clicked" />
-                    <button id="RemoveMultipleSpaces" imageMso="Clear" label="Remove Multiple Spaces" onAction="RemoveMultipleSpaces_Clicked" />
+                    <splitButton id="FormatButton">
+                        <button id="FormatGhazal" imageMso="FormatPainter" label="Format Ghazal" onAction="GhazalFormat_Clicked" />
+                        <menu>
+                            <button id="FormatNazam" label="Format Nazam" onAction="NazamFormat_Clicked" />
+                            <button id="FormatNasar" label="Format Nasar" onAction="NasarFormat_Clicked" />
+                        </menu>
+                    </splitButton>
+					<splitButton id="PasteButton">
+						<button id="PasteGhazal" imageMso="Paste" label="Paste Ghazal" onAction="GhazalPaste_Clicked" />
+						<menu>
+							<button id="PasteNazam" label="Paste Nazam" onAction="NazamPaste_Clicked" />
+							<button id="PasteNasar" label="Paste Nasar" onAction="NasarPaste_Clicked" />
+						</menu>
+					</splitButton>
                 </group>
-                <group id="GroupGhazal" label="Ghazal">
-                    <button id="GhazalPaste" imageMso="Paste" label="Paste" onAction="GhazalPaste_Clicked" />
-                    <button id="GhazalFormat" imageMso="FormatPainter" label="Format" onAction="GhazalFormat_Clicked" />
-                    
-					<dropDown id="GhazalStyle"
-                              imageMso="QuickStylesGallery"
-                              label="Text Style"
-                              onAction="GhazalStyle_Changed" 
-                              getItemCount="GhazalStyle_ItemSource_Count" 
-                              getItemLabel="GhazalStyle_ItemSource_Label" 
-                              getSelectedItemIndex="GhazalStyle_ItemSource_GetSelectedItemIndex" />
-                    
-					<dropDown id="GhazalLinesPerVerse" 
-							  imageMso="Numbering" 
-							  label="Lines Per Verse" 
-							  onAction="GhazalLinesPerVerse_Changed"
-							  getItemCount="GhazalLinesPerVerse_ItemSource_Count" 
-                              getItemLabel="GhazalLinesPerVerse_ItemSource_Label" 
-                              getSelectedItemIndex="GhazalLinesPerVerse_ItemSource_GetSelectedItemIndex" />
-					
-                    <checkBox id="GhazalAddToTableOfContents" 
-                              label="Add To Table of Contents" 
-                              onAction="GhazalAddToTableOfContents_Checked"
-                              getPressed="GhazalAddToTableOfContents_GetPressed" />
-                </group>
-                <group id="GroupNazam" label="Nazam">
-                    <button id="NazamPaste" imageMso="Paste" label="Paste" onAction="NazamPaste_Clicked" />
-                    <button id="NazamFormat" imageMso="FormatPainter" label="Format" onAction="NazamFormat_Clicked" />
                 
+                <group id="GroupSettings" label="Settings">
+                    <dropDown id="GhazalStyle"
+                              imageMso="QuickStylesGallery"
+                              label="Ghazal Style"
+                              onAction="GhazalStyle_Changed"
+                              getItemCount="GhazalStyle_ItemSource_Count"
+                              getItemLabel="GhazalStyle_ItemSource_Label"
+                              getSelectedItemIndex="GhazalStyle_ItemSource_GetSelectedItemIndex" />
+
                     <dropDown id="NazamStyle"
                               imageMso="QuickStylesGallery"
-                              label="Text Style"
-                              onAction="NazamStyle_Changed" 
-                              getItemCount="NazamStyle_ItemSource_Count" 
-                              getItemLabel="NazamStyle_ItemSource_Label" 
+                              label="Nazam Style"
+                              onAction="NazamStyle_Changed"
+                              getItemCount="NazamStyle_ItemSource_Count"
+                              getItemLabel="NazamStyle_ItemSource_Label"
                               getSelectedItemIndex="NazamStyle_ItemSource_GetSelectedItemIndex" />
 
-					<checkBox id="NazamAddToTableOfContents" 
-                              label="Add To Table of Contents" 
-                              onAction="NazamAddToTableOfContents_Checked"
-                              getPressed="NazamAddToTableOfContents_GetPressed" />
+                    <dropDown id="NasarStyle"
+                              imageMso="QuickStylesGallery"
+                              label="Nasar Style"
+                              onAction="NasarStyle_Changed"
+                              getItemCount="NasarStyle_ItemSource_Count"
+                              getItemLabel="NasarStyle_ItemSource_Label"
+                              getSelectedItemIndex="NasarStyle_ItemSource_GetSelectedItemIndex" />
+
+                    <checkBox id="AddToTableOfContents"
+                              label="Add To Table of Contents"
+                              onAction="AddToTableOfContents_Checked"
+                              getPressed="AddToTableOfContents_GetPressed" />
+
+                    <dropDown id="LinesPerVerse"
+                              imageMso="Numbering"
+                              label="Lines Per Verse"
+                              onAction="LinesPerVerse_Changed"
+                              getItemCount="LinesPerVerse_ItemSource_Count"
+                              getItemLabel="LinesPerVerse_ItemSource_Label"
+                              getSelectedItemIndex="LinesPerVerse_ItemSource_GetSelectedItemIndex" />
                 </group>
             </tab>
         </tabs>

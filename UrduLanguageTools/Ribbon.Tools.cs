@@ -1,4 +1,6 @@
-﻿using Microsoft.Office.Core;
+﻿using System.Windows.Forms;
+using Microsoft.Office.Core;
+using Microsoft.Office.Interop.Word;
 using UrduLanguageTools.Extensions;
 
 namespace UrduLanguageTools
@@ -12,10 +14,197 @@ namespace UrduLanguageTools
             RefreshUI(App.ActiveDocument);
         }
         
-        public void RemoveMultipleSpaces_Clicked(IRibbonControl control)
+        public void GhazalPaste_Clicked(IRibbonControl control)
         {
-            var modifiedText = App.Selection.Text.RemoveMultipleSpaces();
-            App.Selection.TypeText(modifiedText);
+            var settings = App.ActiveDocument.GetSettings<AppSettings>();
+            if (!App.ActiveDocument.TryGetStyle(settings.GhazalParagraphStyle, out var paragraphStyle))
+            {
+                MessageBox.Show("The specified style does not exist in the document.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (paragraphStyle.Type != WdStyleType.wdStyleTypeParagraph)
+            {
+                MessageBox.Show("The specified style is not a character type.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            var lines = Clipboard.GetText()
+                .RemoveMultipleSpaces()
+                .GetLines(CharCode.BraillePatternBlank);
+            if (lines.Count == 0)
+            {
+                MessageBox.Show("The clipboard does not contain any text.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            App.Selection.InsertGhazal(lines, new GhazalOptions
+            {
+                ParagraphStyle = paragraphStyle,
+                AddToTableOfContents = settings.AddToTableOfContents,
+                LinesPerVerse = settings.LinesPerVerse
+            });
+        }
+        
+        public void GhazalFormat_Clicked(IRibbonControl control)
+        {
+            var settings = App.ActiveDocument.GetSettings<AppSettings>();
+            if (!App.ActiveDocument.TryGetStyle(settings.GhazalParagraphStyle, out var paragraphStyle))
+            {
+                MessageBox.Show("The specified style does not exist in the document.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
+            if (paragraphStyle.Type != WdStyleType.wdStyleTypeParagraph)
+            {
+                MessageBox.Show("The specified style is not a character type.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
+            var lines = App.Selection.Range.GetText()
+                .RemoveMultipleSpaces()
+                .GetLines(CharCode.BraillePatternBlank);
+            
+            if (lines.Count == 0)
+            {
+                MessageBox.Show("Please highlight the text you want to update.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
+            App.Selection.InsertGhazal(lines, new GhazalOptions
+            {
+                ParagraphStyle = paragraphStyle,
+                AddToTableOfContents = settings.AddToTableOfContents,
+                LinesPerVerse = settings.LinesPerVerse
+            });
+        }
+
+        public void NazamPaste_Clicked(IRibbonControl control)
+        {
+            var options = App.ActiveDocument.GetSettings<AppSettings>();
+            if (!App.ActiveDocument.TryGetStyle(options.NazamParagraphStyle, out var paragraphStyle))
+            {
+                MessageBox.Show("The specified style does not exist in the document.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
+            if (paragraphStyle.Type != WdStyleType.wdStyleTypeParagraph)
+            {
+                MessageBox.Show("The specified style is not a character type.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
+            var lines = Clipboard.GetText()
+                .RemoveMultipleSpaces()
+                .GetLines(CharCode.BraillePatternBlank);
+            
+            if (lines.Count == 0)
+            {
+                MessageBox.Show("The clipboard does not contain any text.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
+            App.Selection.InsertNazam(lines, new NazamOptions
+            {
+                ParagraphStyle = paragraphStyle,
+                AddToTableOfContents = options.AddToTableOfContents
+            });
+        }
+
+        public void NazamFormat_Clicked(IRibbonControl control)
+        {
+            var options = App.ActiveDocument.GetSettings<AppSettings>();
+            if (!App.ActiveDocument.TryGetStyle(options.NazamParagraphStyle, out var paragraphStyle))
+            {
+                MessageBox.Show("The specified style does not exist in the document.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
+            if (paragraphStyle.Type != WdStyleType.wdStyleTypeParagraph)
+            {
+                MessageBox.Show("The specified style is not a character type.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
+            var lines = App.Selection.Range.GetText()
+                .RemoveMultipleSpaces()
+                .GetLines(CharCode.BraillePatternBlank);
+            
+            if (lines.Count == 0)
+            {
+                MessageBox.Show("Please highlight the text you want to update.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
+            App.Selection.InsertNazam(lines, new NazamOptions
+            {
+                ParagraphStyle = paragraphStyle,
+                AddToTableOfContents = options.AddToTableOfContents
+            });
+        }
+        
+        public void NasarPaste_Clicked(IRibbonControl control)
+        {
+            var options = App.ActiveDocument.GetSettings<AppSettings>();
+            if (!App.ActiveDocument.TryGetStyle(options.NasarParagraphStyle, out var paragraphStyle))
+            {
+                MessageBox.Show("The specified style does not exist in the document.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
+            if (paragraphStyle.Type != WdStyleType.wdStyleTypeParagraph)
+            {
+                MessageBox.Show("The specified style is not a character type.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
+            var lines = Clipboard.GetText()
+                .RemoveMultipleSpaces()
+                .GetLines(CharCode.BraillePatternBlank);
+            
+            if (lines.Count == 0)
+            {
+                MessageBox.Show("The clipboard does not contain any text.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
+            App.Selection.InsertNasar(lines, new NasarOptions
+            {
+                ParagraphStyle = paragraphStyle,
+                AddToTableOfContents = options.AddToTableOfContents
+            });
+        }
+        
+        public void NasarFormat_Clicked(IRibbonControl control)
+        {
+            var options = App.ActiveDocument.GetSettings<AppSettings>();
+            if (!App.ActiveDocument.TryGetStyle(options.NasarParagraphStyle, out var paragraphStyle))
+            {
+                MessageBox.Show("The specified style does not exist in the document.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
+            if (paragraphStyle.Type != WdStyleType.wdStyleTypeParagraph)
+            {
+                MessageBox.Show("The specified style is not a character type.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
+            var lines = App.Selection.Range.GetText()
+                .RemoveMultipleSpaces()
+                .GetLines(CharCode.BraillePatternBlank);
+            
+            if (lines.Count == 0)
+            {
+                MessageBox.Show("Please highlight the text you want to update.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
+            App.Selection.InsertNasar(lines, new NasarOptions
+            {
+                ParagraphStyle = paragraphStyle,
+                AddToTableOfContents = options.AddToTableOfContents
+            });
         }
 
         #endregion
