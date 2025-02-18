@@ -46,10 +46,15 @@
                               getItemLabel="NasarStyle_ItemSource_Label"
                               getSelectedItemIndex="NasarStyle_ItemSource_GetSelectedItemIndex" />
 
-                    <checkBox id="AddToTableOfContents"
+					<checkBox id="AddToTableOfContents"
                               label="Add To Table of Contents"
                               onAction="AddToTableOfContents_Checked"
                               getPressed="AddToTableOfContents_GetPressed" />
+
+					<checkBox id="AddPageBreakAtEnd"
+                              label="Add Page Break At Ending"
+                              onAction="AddPageBreakAtEnd_Checked"
+                              getPressed="AddPageBreakAtEnd_GetPressed" />
 
                     <dropDown id="LinesPerVerse"
                               imageMso="Numbering"

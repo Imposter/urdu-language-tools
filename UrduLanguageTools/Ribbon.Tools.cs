@@ -42,6 +42,7 @@ namespace UrduLanguageTools
             {
                 ParagraphStyle = paragraphStyle,
                 AddToTableOfContents = settings.AddToTableOfContents,
+                AddPageBreakAtEnd = settings.AddPageBreakAtEnd,
                 LinesPerVerse = settings.LinesPerVerse
             });
         }
@@ -75,14 +76,15 @@ namespace UrduLanguageTools
             {
                 ParagraphStyle = paragraphStyle,
                 AddToTableOfContents = settings.AddToTableOfContents,
+                AddPageBreakAtEnd = settings.AddPageBreakAtEnd,
                 LinesPerVerse = settings.LinesPerVerse
             });
         }
 
         public void NazamPaste_Clicked(IRibbonControl control)
         {
-            var options = App.ActiveDocument.GetSettings<AppSettings>();
-            if (!App.ActiveDocument.TryGetStyle(options.NazamParagraphStyle, out var paragraphStyle))
+            var settings = App.ActiveDocument.GetSettings<AppSettings>();
+            if (!App.ActiveDocument.TryGetStyle(settings.NazamParagraphStyle, out var paragraphStyle))
             {
                 MessageBox.Show("The specified style does not exist in the document.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -107,14 +109,15 @@ namespace UrduLanguageTools
             App.Selection.InsertNazam(lines, new NazamOptions
             {
                 ParagraphStyle = paragraphStyle,
-                AddToTableOfContents = options.AddToTableOfContents
+                AddToTableOfContents = settings.AddToTableOfContents,
+                AddPageBreakAtEnd = settings.AddPageBreakAtEnd
             });
         }
 
         public void NazamFormat_Clicked(IRibbonControl control)
         {
-            var options = App.ActiveDocument.GetSettings<AppSettings>();
-            if (!App.ActiveDocument.TryGetStyle(options.NazamParagraphStyle, out var paragraphStyle))
+            var settings = App.ActiveDocument.GetSettings<AppSettings>();
+            if (!App.ActiveDocument.TryGetStyle(settings.NazamParagraphStyle, out var paragraphStyle))
             {
                 MessageBox.Show("The specified style does not exist in the document.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -139,14 +142,15 @@ namespace UrduLanguageTools
             App.Selection.InsertNazam(lines, new NazamOptions
             {
                 ParagraphStyle = paragraphStyle,
-                AddToTableOfContents = options.AddToTableOfContents
+                AddToTableOfContents = settings.AddToTableOfContents,
+                AddPageBreakAtEnd = settings.AddPageBreakAtEnd
             });
         }
         
         public void NasarPaste_Clicked(IRibbonControl control)
         {
-            var options = App.ActiveDocument.GetSettings<AppSettings>();
-            if (!App.ActiveDocument.TryGetStyle(options.NasarParagraphStyle, out var paragraphStyle))
+            var settings = App.ActiveDocument.GetSettings<AppSettings>();
+            if (!App.ActiveDocument.TryGetStyle(settings.NasarParagraphStyle, out var paragraphStyle))
             {
                 MessageBox.Show("The specified style does not exist in the document.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -171,14 +175,15 @@ namespace UrduLanguageTools
             App.Selection.InsertNasar(lines, new NasarOptions
             {
                 ParagraphStyle = paragraphStyle,
-                AddToTableOfContents = options.AddToTableOfContents
+                AddToTableOfContents = settings.AddToTableOfContents,
+                AddPageBreakAtEnd = settings.AddPageBreakAtEnd
             });
         }
         
         public void NasarFormat_Clicked(IRibbonControl control)
         {
-            var options = App.ActiveDocument.GetSettings<AppSettings>();
-            if (!App.ActiveDocument.TryGetStyle(options.NasarParagraphStyle, out var paragraphStyle))
+            var settings = App.ActiveDocument.GetSettings<AppSettings>();
+            if (!App.ActiveDocument.TryGetStyle(settings.NasarParagraphStyle, out var paragraphStyle))
             {
                 MessageBox.Show("The specified style does not exist in the document.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -203,7 +208,8 @@ namespace UrduLanguageTools
             App.Selection.InsertNasar(lines, new NasarOptions
             {
                 ParagraphStyle = paragraphStyle,
-                AddToTableOfContents = options.AddToTableOfContents
+                AddToTableOfContents = settings.AddToTableOfContents,
+                AddPageBreakAtEnd = settings.AddPageBreakAtEnd
             });
         }
 

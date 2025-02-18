@@ -87,6 +87,16 @@ namespace UrduLanguageTools
         {
             return App.ActiveDocument.GetSetting<AppSettings, bool>(s => s.AddToTableOfContents);
         }
+        
+        public void AddPageBreakAtEnd_Checked(IRibbonControl control, bool isChecked)
+        {
+            App.ActiveDocument.SetSetting<AppSettings, bool>((s, v) => s.AddPageBreakAtEnd = v, isChecked);
+        }
+        
+        public bool AddPageBreakAtEnd_GetPressed(IRibbonControl control)
+        {
+            return App.ActiveDocument.GetSetting<AppSettings, bool>(s => s.AddPageBreakAtEnd);
+        }
 
         public void LinesPerVerse_Changed(IRibbonControl control, string selectedId, int selectedIndex)
         {

@@ -3,6 +3,8 @@
     public sealed class AppSettings
     {
         public bool AddToTableOfContents { get; set; } = true;
+
+        public bool AddPageBreakAtEnd { get; set; } = true;
         
         public int LinesPerVerse { get; set; } = 2;
         

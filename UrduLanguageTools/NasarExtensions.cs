@@ -9,6 +9,8 @@ namespace UrduLanguageTools
         public Style ParagraphStyle { get; set; }
         
         public bool AddToTableOfContents { get; set; }
+
+        public bool AddPageBreakAtEnd { get; set; }
     }
     
     public static class NasarExtensions
@@ -33,6 +35,11 @@ namespace UrduLanguageTools
                 selection.TypeText(i == lines.Count - 1
                     ? $"{line}{CharCode.ParagraphBreak}"
                     : $"{line}{CharCode.LineBreak}");
+                if (options.AddPageBreakAtEnd && i == lines.Count - 1)
+                {
+                    selection.InsertBreak(WdBreakType.wdPageBreak);
+                }
+                
                 var end = selection.End;
                 var range = selection.Document.Range(start, end);
                 lineRanges.Add(range);

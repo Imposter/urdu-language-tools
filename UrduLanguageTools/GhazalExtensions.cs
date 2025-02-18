@@ -10,6 +10,8 @@ namespace UrduLanguageTools
 
         public bool AddToTableOfContents { get; set; }
 
+        public bool AddPageBreakAtEnd { get; set; }
+
         public int LinesPerVerse { get; set; }
     }
     
@@ -45,6 +47,12 @@ namespace UrduLanguageTools
                     emptyLineRange.Font.Size = 1;
 
                     end = emptyLineEnd;
+                }
+                
+                if (options.AddPageBreakAtEnd && i == lines.Count - 1)
+                {
+                    selection.InsertBreak(WdBreakType.wdPageBreak);
+                    end = selection.End;
                 }
 
                 var range = selection.Document.Range(start, end);
