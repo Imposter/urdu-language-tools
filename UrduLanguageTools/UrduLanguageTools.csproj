@@ -217,20 +217,14 @@
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="GhazalExtensions.cs" />
-    <Compile Include="LanguageToolsRibbon.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="LanguageToolsRibbon.Designer.cs">
-      <DependentUpon>LanguageToolsRibbon.cs</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Extensions\RangeExtensions.cs" />
     <Compile Include="Extensions\RibbonExtensions.cs" />
-    <EmbeddedResource Include="LanguageToolsRibbon.resx">
-      <DependentUpon>LanguageToolsRibbon.cs</DependentUpon>
-    </EmbeddedResource>
+    <Compile Include="Ribbon.cs">
+      <XmlRibbon>true</XmlRibbon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -261,6 +255,9 @@
     </Compile>
     <AppDesigner Include="Properties\" />
     <None Include="UrduLanguageTools_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Ribbon.xml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

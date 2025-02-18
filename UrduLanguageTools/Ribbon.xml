@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<customUI onLoad="Ribbon_Load" xmlns="http://schemas.microsoft.com/office/2006/01/customui">
+    <ribbon>
+        <tabs>
+            <tab idMso="TabAddIns">
+                <group id="grpTools" label="Tools">
+                    <button id="Refresh" imageMso="Repeat" label="Refresh" onAction="Refresh_Clicked" />
+                    <button id="RemoveMultipleSpaces" imageMso="Clear" label="Remove Multiple Spaces" onAction="RemoveMultipleSpaces_Clicked" />
+                </group>
+                <group id="grpGhazal" label="Ghazal">
+                    <button id="GhazalPaste" imageMso="Paste" label="Paste" onAction="GhazalPaste_Clicked"  />
+                    <button id="GhazalFormat" imageMso="FormatPainter" label="Format" onAction="GhazalFormat_Clicked" />
+                    
+					<dropDown id="GhazalStyle"
+                              imageMso="QuickStylesGallery"
+                              label="Text Style"
+                              onAction="GhazalStyle_Changed" 
+                              getItemCount="GhazalStyle_ItemSource_Count" 
+                              getItemLabel="GhazalStyle_ItemSource_Label" 
+                              getSelectedItemIndex="GhazalStyle_ItemSource_GetSelectedItemIndex" />
+                    
+					<dropDown id="GhazalLinesPerVerse" 
+							  imageMso="Numbering" 
+							  label="Lines Per Verse" 
+							  onAction="GhazalLinesPerVerse_Changed"
+							  getItemCount="GhazalLinesPerVerse_ItemSource_Count" 
+                              getItemLabel="GhazalLinesPerVerse_ItemSource_Label" 
+                              getSelectedItemIndex="GhazalLinesPerVerse_ItemSource_GetSelectedItemIndex" />
+					
+                    <checkBox id="GhazalAddToTableOfContents" 
+                              label="Add To Table of Contents" 
+                              onAction="GhazalAddToTableOfContents_Checked"
+                              getPressed="GhazalAddToTableOfContents_GetPressed" />
+                </group>
+            </tab>
+        </tabs>
+    </ribbon>
+</customUI>

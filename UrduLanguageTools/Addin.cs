@@ -1,4 +1,4 @@
-﻿using Microsoft.Office.Tools.Ribbon;
+﻿using Microsoft.Office.Core;
 
 namespace UrduLanguageTools
 {
@@ -12,9 +12,9 @@ namespace UrduLanguageTools
         {
         }
 
-        protected override IRibbonExtension[] CreateRibbonObjects()
+        protected override IRibbonExtensibility CreateRibbonExtensibilityObject()
         {
-            return new[] { new LanguageToolsRibbon() };
+            return new Ribbon();
         }
 
         #region VSTO generated code
