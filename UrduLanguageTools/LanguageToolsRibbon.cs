@@ -80,8 +80,6 @@ namespace UrduLanguageTools
                 return;
             }
 
-            // TODO: Debug this. It didn't work properly
-            // Get lines from clipboard
             var lines = Clipboard.GetText().GetLines(CharCode.BraillePatternBlank);
             if (lines.Count == 0)
             {
