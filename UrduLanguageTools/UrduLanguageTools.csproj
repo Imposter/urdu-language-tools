@@ -28,16 +28,16 @@
     <AssemblyName>UrduLanguageTools</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <DefineConstants>VSTO40</DefineConstants>
-    <IsWebBootstrapper>True</IsWebBootstrapper>
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <PublishUrl>publish\</PublishUrl>
-    <InstallUrl>https://poetryhaven.org/</InstallUrl>
+    <InstallUrl />
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.0.1</ApplicationVersion>
+    <ApplicationVersion>1.0.0.0</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>7</UpdateInterval>
     <UpdateIntervalUnits>days</UpdateIntervalUnits>
+    <IsWebBootstrapper>False</IsWebBootstrapper>
     <ProductName>Urdu Language Tools</ProductName>
     <PublisherName>Eyaz Rehman</PublisherName>
     <SupportUrl>https://github.com/imposter</SupportUrl>
@@ -225,7 +225,7 @@
     <Compile Include="Extensions\RangeExtensions.cs" />
     <Compile Include="Extensions\RibbonExtensions.cs" />
     <Compile Include="Ribbon.cs">
-        <XmlRibbon>true</XmlRibbon>
+      <XmlRibbon>true</XmlRibbon>
     </Compile>
     <Compile Include="Ribbon.Settings.cs">
       <DependentUpon>Ribbon.cs</DependentUpon>
@@ -245,6 +245,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include="app.config" />
+    <None Include="CodeSigningCert.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -277,17 +278,16 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>
-    </ManifestKeyFile>
+    <ManifestKeyFile>CodeSigningCert.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>AE4AD4ED6969045E2AD4477231386E15B5C74B20</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>6627149192EC09850CA4EE7A05628E437A9CC1FE</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>UrduLanguageTools_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>CodeSigningCert.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

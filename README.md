@@ -22,7 +22,7 @@ To build the project, follow these steps:
     cd UrduLanguageTools
     ```
 
-2. Open the solution file `UrduLanguageTools.sln` in JetBrains Rider or Visual Studio.
+2. Open the solution file `UrduLanguageTools.sln` in Visual Studio.
 
 3. Restore the NuGet packages:
     ```sh
@@ -35,6 +35,33 @@ To build the project, follow these steps:
     ```
 
 5. Run the project to start debugging the VSTO plugin in Microsoft Word.
+
+
+## Publishing the Plugin
+
+To publish the plugin, follow these steps:
+
+1. Create a code signing certificate using the script `ops/cert_gen.ps1`:
+    ```pwsh
+    .\ops\cert_gen.ps1
+    ```
+    This script will create a self-signed certificate and export it to a PFX file.
+2. Open the solution file `UrduLanguageTools.sln` in Visual Studio.
+3. Right-click on the project `UrduLanguageTools` and select `Properties`.
+4. Go to the `Signing` tab and check the box `Sign the ClickOnce manifests`.
+5. Click on the `Select from file...` button and select the PFX file created in step 1. The password for the PFX file is `password`.
+6. Check the box `Sign the assembly`.
+7. Publish the project by right-clicking on the project and selecting `Publish`.
+
+The plugin will be published to the specified location. The published files can be copied to a shared location along with the certificate for installation on other machines.
+
+## Installing the Plugin
+
+To install the plugin, follow these steps:
+
+1. Copy the published files to a shared location.
+2. Install the certificate by double-clicking on the PFX file and following the installation wizard. The password for the PFX file is `password`.
+3. Run the `setup.exe` file to install the plugin.
 
 ## Contributing
 
