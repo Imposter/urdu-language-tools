@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34309.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrduLanguageTools", "UrduLanguageTools\UrduLanguageTools.csproj", "{96AD138D-4936-409D-AB4A-E85619130658}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{96AD138D-4936-409D-AB4A-E85619130658}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96AD138D-4936-409D-AB4A-E85619130658}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96AD138D-4936-409D-AB4A-E85619130658}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96AD138D-4936-409D-AB4A-E85619130658}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0FCE213B-5B62-4F5D-B365-FFA6ED299DBC}
+	EndGlobalSection
+EndGlobal
