@@ -9,6 +9,9 @@ This project is a VSTO (Visual Studio Tools for Office) plugin for Microsoft Wor
 - Remove multiple spaces from selected text.
 - Paste and format Ghazal text from the clipboard.
 
+![Controls](docs/images/001_controls.png)
+![Pasting](docs/images/002_pasting_ghazal.gif)
+
 ## Building the Project
 
 To build the project, follow these steps:
