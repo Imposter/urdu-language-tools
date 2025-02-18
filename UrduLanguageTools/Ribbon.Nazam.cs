@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows.Forms;
 using Microsoft.Office.Core;
 using Microsoft.Office.Interop.Word;
@@ -9,13 +8,11 @@ namespace UrduLanguageTools
 {
     public partial class Ribbon
     {
-        private static readonly int[] LinesPerVerses = { 2, 3, 4 };
-
         #region Ribbon Callbacks
-        
-        public void GhazalPaste_Clicked(IRibbonControl control)
+
+        public void NazamPaste_Clicked(IRibbonControl control)
         {
-            var options = App.ActiveDocument.GetSetting<AppSettings, GhazalOptions>(s => s.GhazalOptions);
+            var options = App.ActiveDocument.GetSetting<AppSettings, NazamOptions>(s => s.NazamOptions);
             if (!App.ActiveDocument.TryGetStyle(options.ParagraphStyle, out var paragraphStyle))
             {
                 MessageBox.Show("The specified style does not exist in the document.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -37,12 +34,12 @@ namespace UrduLanguageTools
                 return;
             }
 
-            App.Selection.InsertGhazal(lines, options);
+            App.Selection.InsertNazam(lines, options);
         }
-        
-        public void GhazalFormat_Clicked(IRibbonControl control)
+
+        public void NazamFormat_Clicked(IRibbonControl control)
         {
-            var options = App.ActiveDocument.GetSetting<AppSettings, GhazalOptions>(s => s.GhazalOptions);
+            var options = App.ActiveDocument.GetSetting<AppSettings, NazamOptions>(s => s.NazamOptions);
             if (!App.ActiveDocument.TryGetStyle(options.ParagraphStyle, out var paragraphStyle))
             {
                 MessageBox.Show("The specified style does not exist in the document.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -64,63 +61,41 @@ namespace UrduLanguageTools
                 return;
             }
 
-            App.Selection.InsertGhazal(lines, options);
+            App.Selection.InsertNazam(lines, options);
         }
-
-        public void GhazalStyle_Changed(IRibbonControl control, string selectedId, int selectedIndex)
+        
+        public void NazamStyle_Changed(IRibbonControl control, string selectedId, int selectedIndex)
         {
             var style = styles[selectedIndex];
-            App.ActiveDocument.SetSetting<AppSettings, string>((s, v) => s.GhazalOptions.ParagraphStyle = v, style.NameLocal);
+            App.ActiveDocument.SetSetting<AppSettings, string>((s, v) => s.NazamOptions.ParagraphStyle = v, style.NameLocal);
         }
-
-        public int GhazalStyle_ItemSource_Count(IRibbonControl control)
+        
+        public int NazamStyle_ItemSource_Count(IRibbonControl control)
         {
             return App.Documents.Count == 0 ? 0 : styles.Count(s => s.Type == WdStyleType.wdStyleTypeParagraph);
         }
-
-        public string GhazalStyle_ItemSource_Label(IRibbonControl control, int index)
+        
+        public string NazamStyle_ItemSource_Label(IRibbonControl control, int index)
         {
             return styles.Where(s => s.Type == WdStyleType.wdStyleTypeParagraph).Skip(index).First().NameLocal;
         }
         
-        public int GhazalStyle_ItemSource_GetSelectedItemIndex(IRibbonControl control)
+        public int NazamStyle_ItemSource_GetSelectedItemIndex(IRibbonControl control)
         {
-            var styleName = App.ActiveDocument.GetSetting<AppSettings, string>(s => s.GhazalOptions.ParagraphStyle);
+            var styleName = App.ActiveDocument.GetSetting<AppSettings, string>(s => s.NazamOptions.ParagraphStyle);
             return styles.ToList().FindIndex(s => s.NameLocal == styleName);
         }
-
-        public void GhazalLinesPerVerse_Changed(IRibbonControl control, string selectedId, int selectedIndex)
+        
+        public void NazamAddToTableOfContents_Checked(IRibbonControl control, bool isChecked)
         {
-            var linesPerVerse = LinesPerVerses[selectedIndex];
-            App.ActiveDocument.SetSetting<AppSettings, int>((s, v) => s.GhazalOptions.LinesPerVerse = v, linesPerVerse);
-        }
-
-        public int GhazalLinesPerVerse_ItemSource_Count(IRibbonControl control)
-        {
-            return App.Documents.Count == 0 ? 0 : LinesPerVerses.Length;
+            App.ActiveDocument.SetSetting<AppSettings, bool>((s, v) => s.NazamOptions.AddToTableOfContents = v, isChecked);
         }
         
-        public string GhazalLinesPerVerse_ItemSource_Label(IRibbonControl control, int index)
+        public bool NazamAddToTableOfContents_GetPressed(IRibbonControl control)
         {
-            return LinesPerVerses[index].ToString();
+            return App.ActiveDocument.GetSetting<AppSettings, bool>(s => s.NazamOptions.AddToTableOfContents);
         }
         
-        public int GhazalLinesPerVerse_ItemSource_GetSelectedItemIndex(IRibbonControl control)
-        {
-            var linesPerVerse = App.ActiveDocument.GetSetting<AppSettings, int>(s => s.GhazalOptions.LinesPerVerse);
-            return Array.IndexOf(LinesPerVerses, linesPerVerse);
-        }
-        
-        public void GhazalAddToTableOfContents_Checked(IRibbonControl control, bool isChecked)
-        {
-            App.ActiveDocument.SetSetting<AppSettings, bool>((s, v) => s.GhazalOptions.AddToTableOfContents = v, isChecked);
-        }
-        
-        public bool GhazalAddToTableOfContents_GetPressed(IRibbonControl control)
-        {
-            return App.ActiveDocument.GetSetting<AppSettings, bool>(s => s.GhazalOptions.AddToTableOfContents);
-        }
-
         #endregion
     }
 }

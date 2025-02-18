@@ -217,16 +217,27 @@
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="GhazalExtensions.cs" />
+    <Compile Include="NazamExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Extensions\RangeExtensions.cs" />
     <Compile Include="Extensions\RibbonExtensions.cs" />
-    <Compile Include="Ribbon.cs" />
+    <Compile Include="Ribbon.cs">
+        <XmlRibbon>true</XmlRibbon>
+    </Compile>
     <Compile Include="Ribbon.Ghazal.cs">
+      <DependentUpon>Ribbon.cs</DependentUpon>
       <XmlRibbon>true</XmlRibbon>
     </Compile>
-    <Compile Include="Ribbon.Tools.cs" />
+    <Compile Include="Ribbon.Nazam.cs">
+      <DependentUpon>Ribbon.cs</DependentUpon>
+      <XmlRibbon>true</XmlRibbon>
+    </Compile>
+    <Compile Include="Ribbon.Tools.cs">
+      <DependentUpon>Ribbon.cs</DependentUpon>
+      <XmlRibbon>true</XmlRibbon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

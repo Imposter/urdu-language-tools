@@ -8,7 +8,7 @@
                     <button id="RemoveMultipleSpaces" imageMso="Clear" label="Remove Multiple Spaces" onAction="RemoveMultipleSpaces_Clicked" />
                 </group>
                 <group id="GroupGhazal" label="Ghazal">
-                    <button id="GhazalPaste" imageMso="Paste" label="Paste" onAction="GhazalPaste_Clicked"  />
+                    <button id="GhazalPaste" imageMso="Paste" label="Paste" onAction="GhazalPaste_Clicked" />
                     <button id="GhazalFormat" imageMso="FormatPainter" label="Format" onAction="GhazalFormat_Clicked" />
                     
 					<dropDown id="GhazalStyle"
@@ -31,6 +31,23 @@
                               label="Add To Table of Contents" 
                               onAction="GhazalAddToTableOfContents_Checked"
                               getPressed="GhazalAddToTableOfContents_GetPressed" />
+                </group>
+                <group id="GroupNazam" label="Nazam">
+                    <button id="NazamPaste" imageMso="Paste" label="Paste" onAction="NazamPaste_Clicked" />
+                    <button id="NazamFormat" imageMso="FormatPainter" label="Format" onAction="NazamFormat_Clicked" />
+                
+                    <dropDown id="NazamStyle"
+                              imageMso="QuickStylesGallery"
+                              label="Text Style"
+                              onAction="NazamStyle_Changed" 
+                              getItemCount="NazamStyle_ItemSource_Count" 
+                              getItemLabel="NazamStyle_ItemSource_Label" 
+                              getSelectedItemIndex="NazamStyle_ItemSource_GetSelectedItemIndex" />
+
+					<checkBox id="NazamAddToTableOfContents" 
+                              label="Add To Table of Contents" 
+                              onAction="NazamAddToTableOfContents_Checked"
+                              getPressed="NazamAddToTableOfContents_GetPressed" />
                 </group>
             </tab>
         </tabs>
