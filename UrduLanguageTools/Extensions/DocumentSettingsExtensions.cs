@@ -1,9 +1,9 @@
-﻿using Microsoft.Office.Core;
-using Microsoft.Office.Interop.Word;
-using System;
+﻿using System;
 using System.Text.Json;
+using Microsoft.Office.Core;
+using Microsoft.Office.Interop.Word;
 
-namespace UrduLanguageTools
+namespace UrduLanguageTools.Extensions
 {
     public static class DocumentSettingsExtensions
     {

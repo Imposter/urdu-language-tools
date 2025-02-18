@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace UrduLanguageTools
+namespace UrduLanguageTools.Extensions
 {
     public static class EnumerableExtensions
     {

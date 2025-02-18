@@ -1,6 +1,6 @@
 ﻿using Microsoft.Office.Interop.Word;
 
-namespace UrduLanguageTools
+namespace UrduLanguageTools.Extensions
 {
     public static class RangeExtensions
     {

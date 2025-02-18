@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.Office.Core;
 using Microsoft.Office.Interop.Word;
+using UrduLanguageTools.Extensions;
 
 namespace UrduLanguageTools
 {

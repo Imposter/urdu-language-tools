@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using Microsoft.Office.Core;
 using Microsoft.Office.Interop.Word;
+using UrduLanguageTools.Extensions;
 
 namespace UrduLanguageTools
 {
@@ -44,7 +45,7 @@ namespace UrduLanguageTools
         private void RefreshUI(Document document)
         {
             styles.Clear();
-            styles.AddRange(document.Styles.Cast<Style>().Where(s => s.Type == WdStyleType.wdStyleTypeParagraph));
+            styles.AddRange(EnumerableExtensions.Cast<Style>(document.Styles).Where(s => s.Type == WdStyleType.wdStyleTypeParagraph));
             ribbon.Invalidate();
         }
 

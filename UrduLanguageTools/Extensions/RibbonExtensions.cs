@@ -1,8 +1,8 @@
-﻿using Microsoft.Office.Tools.Ribbon;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Microsoft.Office.Tools.Ribbon;
 
-namespace UrduLanguageTools
+namespace UrduLanguageTools.Extensions
 {
     public static class RibbonExtensions
     {
