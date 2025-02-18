@@ -7,7 +7,7 @@ namespace UrduLanguageTools
 {
     public static class DocumentSettingsExtensions
     {
-        private static string GetSettingName<T>() => $"{nameof(UrduLanguageTools)}_{typeof(T).GetType().Name}";
+        private static string GetSettingName<T>() => $"{nameof(UrduLanguageTools)}_{typeof(T).Name}";
 
         public static T GetSettings<T>(this Document document, T defaultValue = default)
             where T : new()
