@@ -50,11 +50,14 @@
                               label="Add To Table of Contents"
                               onAction="AddToTableOfContents_Checked"
                               getPressed="AddToTableOfContents_GetPressed" />
-
-					<checkBox id="AddPageBreakAtEnd"
-                              label="Add Page Break At Ending"
-                              onAction="AddPageBreakAtEnd_Checked"
-                              getPressed="AddPageBreakAtEnd_GetPressed" />
+					
+					<dropDown id="ParagraphEnding"
+							  imageMso="MailMergeGoToFirstRecord"
+							  label="Paragraph Ending"
+							  onAction="ParagraphEnding_Changed"
+                              getItemCount="ParagraphEnding_ItemSource_Count"
+                              getItemLabel="ParagraphEnding_ItemSource_Label"
+                              getSelectedItemIndex="ParagraphEnding_ItemSource_GetSelectedItemIndex" />
 
                     <dropDown id="LinesPerVerse"
                               imageMso="Numbering"

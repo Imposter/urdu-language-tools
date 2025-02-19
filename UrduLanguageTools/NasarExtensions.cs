@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Office.Interop.Word;
 
@@ -10,7 +11,7 @@ namespace UrduLanguageTools
         
         public bool AddToTableOfContents { get; set; }
 
-        public bool AddPageBreakAtEnd { get; set; }
+        public ParagraphEnding ParagraphEnding { get; set; }
     }
     
     public static class NasarExtensions
@@ -24,7 +25,7 @@ namespace UrduLanguageTools
             selection.InsertParagraph();
             selection.set_Style(options.ParagraphStyle);
             selection.ParagraphFormat.ReadingOrder = WdReadingOrder.wdReadingOrderRtl;
-            selection.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphJustify;
+            selection.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
 
             // Insert line by line
             var lineRanges = new List<Range>();
@@ -35,9 +36,22 @@ namespace UrduLanguageTools
                 selection.TypeText(i == lines.Count - 1
                     ? $"{line}{CharCode.ParagraphBreak}"
                     : $"{line}{CharCode.LineBreak}");
-                if (options.AddPageBreakAtEnd && i == lines.Count - 1)
+
+                if (i == lines.Count - 1)
                 {
-                    selection.InsertBreak(WdBreakType.wdPageBreak);
+                    switch (options.ParagraphEnding)
+                    {
+                        case ParagraphEnding.Page:
+                            selection.InsertBreak(WdBreakType.wdPageBreak);
+                            break;
+                        case ParagraphEnding.Section:
+                            selection.InsertBreak(WdBreakType.wdSectionBreakNextPage);
+                            break;
+                        case ParagraphEnding.None:
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(options.ParagraphEnding), options.ParagraphEnding, $"Unknown paragraph ending type: {options.ParagraphEnding}");
+                    }
                 }
                 
                 var end = selection.End;

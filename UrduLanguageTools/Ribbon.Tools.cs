@@ -42,8 +42,8 @@ namespace UrduLanguageTools
             {
                 ParagraphStyle = paragraphStyle,
                 AddToTableOfContents = settings.AddToTableOfContents,
-                AddPageBreakAtEnd = settings.AddPageBreakAtEnd,
-                LinesPerVerse = settings.LinesPerVerse
+                LinesPerVerse = settings.LinesPerVerse,
+                ParagraphEnding = settings.ParagraphEnding
             });
         }
         
@@ -76,8 +76,8 @@ namespace UrduLanguageTools
             {
                 ParagraphStyle = paragraphStyle,
                 AddToTableOfContents = settings.AddToTableOfContents,
-                AddPageBreakAtEnd = settings.AddPageBreakAtEnd,
-                LinesPerVerse = settings.LinesPerVerse
+                LinesPerVerse = settings.LinesPerVerse,
+                ParagraphEnding = settings.ParagraphEnding
             });
         }
 
@@ -110,7 +110,7 @@ namespace UrduLanguageTools
             {
                 ParagraphStyle = paragraphStyle,
                 AddToTableOfContents = settings.AddToTableOfContents,
-                AddPageBreakAtEnd = settings.AddPageBreakAtEnd
+                ParagraphEnding = settings.ParagraphEnding
             });
         }
 
@@ -143,7 +143,7 @@ namespace UrduLanguageTools
             {
                 ParagraphStyle = paragraphStyle,
                 AddToTableOfContents = settings.AddToTableOfContents,
-                AddPageBreakAtEnd = settings.AddPageBreakAtEnd
+                ParagraphEnding = settings.ParagraphEnding
             });
         }
         
@@ -176,7 +176,7 @@ namespace UrduLanguageTools
             {
                 ParagraphStyle = paragraphStyle,
                 AddToTableOfContents = settings.AddToTableOfContents,
-                AddPageBreakAtEnd = settings.AddPageBreakAtEnd
+                ParagraphEnding = settings.ParagraphEnding
             });
         }
         
@@ -209,7 +209,7 @@ namespace UrduLanguageTools
             {
                 ParagraphStyle = paragraphStyle,
                 AddToTableOfContents = settings.AddToTableOfContents,
-                AddPageBreakAtEnd = settings.AddPageBreakAtEnd
+                ParagraphEnding = settings.ParagraphEnding
             });
         }
 

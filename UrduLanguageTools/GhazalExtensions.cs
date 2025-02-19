@@ -1,4 +1,5 @@
-﻿using Microsoft.Office.Interop.Word;
+﻿using System;
+using Microsoft.Office.Interop.Word;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,7 +11,7 @@ namespace UrduLanguageTools
 
         public bool AddToTableOfContents { get; set; }
 
-        public bool AddPageBreakAtEnd { get; set; }
+        public ParagraphEnding ParagraphEnding { get; set; }
 
         public int LinesPerVerse { get; set; }
     }
@@ -48,10 +49,23 @@ namespace UrduLanguageTools
 
                     end = emptyLineEnd;
                 }
-                
-                if (options.AddPageBreakAtEnd && i == lines.Count - 1)
+
+                if (i == lines.Count - 1)
                 {
-                    selection.InsertBreak(WdBreakType.wdPageBreak);
+                    switch (options.ParagraphEnding)
+                    {
+                        case ParagraphEnding.Page:
+                            selection.InsertBreak(WdBreakType.wdPageBreak);
+                            break;
+                        case ParagraphEnding.Section:
+                            selection.InsertBreak(WdBreakType.wdSectionBreakNextPage);
+                            break;
+                        case ParagraphEnding.None:
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(options.ParagraphEnding), options.ParagraphEnding, $"Unknown paragraph ending type: {options.ParagraphEnding}");
+                    }
+
                     end = selection.End;
                 }
 

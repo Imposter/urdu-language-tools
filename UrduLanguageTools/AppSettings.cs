@@ -1,10 +1,17 @@
 ﻿namespace UrduLanguageTools
 {
+    public enum ParagraphEnding
+    {
+        None,
+        Page,
+        Section
+    }
+    
     public sealed class AppSettings
     {
         public bool AddToTableOfContents { get; set; } = true;
 
-        public bool AddPageBreakAtEnd { get; set; } = true;
+        public ParagraphEnding ParagraphEnding { get; set; } = ParagraphEnding.Page;
         
         public int LinesPerVerse { get; set; } = 2;
         

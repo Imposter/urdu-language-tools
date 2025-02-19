@@ -88,14 +88,26 @@ namespace UrduLanguageTools
             return App.ActiveDocument.GetSetting<AppSettings, bool>(s => s.AddToTableOfContents);
         }
         
-        public void AddPageBreakAtEnd_Checked(IRibbonControl control, bool isChecked)
+        public void ParagraphEnding_Changed(IRibbonControl control, string selectedId, int selectedIndex)
         {
-            App.ActiveDocument.SetSetting<AppSettings, bool>((s, v) => s.AddPageBreakAtEnd = v, isChecked);
+            var paragraphEnding = (ParagraphEnding)selectedIndex;
+            App.ActiveDocument.SetSetting<AppSettings, ParagraphEnding>((s, v) => s.ParagraphEnding = v, paragraphEnding);
         }
         
-        public bool AddPageBreakAtEnd_GetPressed(IRibbonControl control)
+        public int ParagraphEnding_ItemSource_Count(IRibbonControl control)
         {
-            return App.ActiveDocument.GetSetting<AppSettings, bool>(s => s.AddPageBreakAtEnd);
+            return Enum.GetValues(typeof(ParagraphEnding)).Length;
+        }
+        
+        public string ParagraphEnding_ItemSource_Label(IRibbonControl control, int index)
+        {
+            return Enum.GetName(typeof(ParagraphEnding), index);
+        }
+        
+        public int ParagraphEnding_ItemSource_GetSelectedItemIndex(IRibbonControl control)
+        {
+            var paragraphEnding = App.Documents.Count == 0 ? 0 : App.ActiveDocument.GetSetting<AppSettings, ParagraphEnding>(s => s.ParagraphEnding);
+            return (int)paragraphEnding;
         }
 
         public void LinesPerVerse_Changed(IRibbonControl control, string selectedId, int selectedIndex)
