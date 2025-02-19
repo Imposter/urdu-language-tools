@@ -18,7 +18,7 @@ To build the project, follow these steps:
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/imposter/UrduLanguageTools.git
+    git clone https://github.com/imposter/urdu-language-tools.git
     cd UrduLanguageTools
     ```
 
@@ -60,7 +60,9 @@ The plugin will be published to the specified location. The published files can 
 To install the plugin, follow these steps:
 
 1. Copy the published files to a shared location.
-2. Install the certificate by double-clicking on the PFX file and following the installation wizard. The password for the PFX file is `password`.
+2. Install the certificate by double-clicking on the PFX file and following the installation wizard. 
+   The password for the PFX file is `password`.
+   The certificate must be installed in the `Trusted Root Certification Authorities` store.
 3. Run the `setup.exe` file to install the plugin.
 
 ## Contributing
