@@ -6,17 +6,17 @@
                 <group id="GroupTools" label="Tools">
                     <button id="Refresh" imageMso="Repeat" label="Refresh" onAction="Refresh_Clicked" />
                     <splitButton id="FormatButton">
-                        <button id="FormatGhazal" imageMso="FormatPainter" label="Format Ghazal" onAction="GhazalFormat_Clicked" />
+                        <button id="FormatGhazal" imageMso="FormatPainter" label="Format Ghazal" onAction="Format_Clicked" />
                         <menu>
-                            <button id="FormatNazam" label="Format Nazam" onAction="NazamFormat_Clicked" />
-                            <button id="FormatNasar" label="Format Nasar" onAction="NasarFormat_Clicked" />
+                            <button id="FormatNazam" label="Format Nazam" onAction="Format_Clicked" />
+                            <button id="FormatNasar" label="Format Nasar" onAction="Format_Clicked" />
                         </menu>
                     </splitButton>
 					<splitButton id="PasteButton">
-						<button id="PasteGhazal" imageMso="Paste" label="Paste Ghazal" onAction="GhazalPaste_Clicked" />
+						<button id="PasteGhazal" imageMso="Paste" label="Paste Ghazal" onAction="Paste_Clicked" />
 						<menu>
-							<button id="PasteNazam" label="Paste Nazam" onAction="NazamPaste_Clicked" />
-							<button id="PasteNasar" label="Paste Nasar" onAction="NasarPaste_Clicked" />
+							<button id="PasteNazam" label="Paste Nazam" onAction="Paste_Clicked" />
+							<button id="PasteNasar" label="Paste Nasar" onAction="Paste_Clicked" />
 						</menu>
 					</splitButton>
                 </group>
