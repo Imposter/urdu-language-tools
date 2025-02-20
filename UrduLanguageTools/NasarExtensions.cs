@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Office.Interop.Word;
 using UrduLanguageTools.Extensions;
@@ -28,39 +27,7 @@ namespace UrduLanguageTools
             selection.ParagraphFormat.ReadingOrder = WdReadingOrder.wdReadingOrderRtl;
             selection.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
 
-            // Insert line by line
-            var lineRanges = new List<Range>();
-            for (var i = 0; i < lines.Count; i++)
-            {
-                var isLastLine = i == lines.Count - 1;
-                var line = lines[i];
-                var start = selection.Start;
-                selection.TypeText(line);
-                if (!isLastLine)
-                {
-                    selection.InsertBreak(WdBreakType.wdLineBreak);
-                }
-                else
-                {
-                    switch (options.ParagraphEnding)
-                    {
-                        case ParagraphEnding.Page:
-                            selection.InsertBreak(WdBreakType.wdPageBreak);
-                            break;
-                        case ParagraphEnding.Section:
-                            selection.InsertBreak(WdBreakType.wdSectionBreakNextPage);
-                            break;
-                        case ParagraphEnding.None:
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException(nameof(options.ParagraphEnding), options.ParagraphEnding, $"Unknown paragraph ending type: {options.ParagraphEnding}");
-                    }
-                }
-
-                var end = selection.End;
-                var range = selection.Document.Range(start, end);
-                lineRanges.Add(range);
-            }
+            var lineRanges = selection.InsertLines(lines, paragraphEnding: options.ParagraphEnding);
 
             if (options.AddToTableOfContents)
             {
