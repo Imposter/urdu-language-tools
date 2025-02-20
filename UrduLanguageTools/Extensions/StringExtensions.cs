@@ -5,7 +5,12 @@ namespace UrduLanguageTools.Extensions
 {
     public static class StringExtensions
     {
-        private static char[] SplitChars = new char[] { '\u000a', '\u000b', '\u000d' };
+        private static readonly char[] SplitChars =
+        {
+            '\u000a', // Line feed
+            '\u000b', // Vertical tab
+            '\u000d'  // Carriage return
+        };
 
         public static IReadOnlyList<string> GetLines(this string text, params char[] newlineChars)
         {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Office.Interop.Word;
+using UrduLanguageTools.Extensions;
 
 namespace UrduLanguageTools
 {
@@ -31,13 +32,15 @@ namespace UrduLanguageTools
             var lineRanges = new List<Range>();
             for (var i = 0; i < lines.Count; i++)
             {
+                var isLastLine = i == lines.Count - 1;
                 var line = lines[i];
                 var start = selection.Start;
-                selection.TypeText(i == lines.Count - 1
-                    ? $"{line}{CharCode.ParagraphBreak}"
-                    : $"{line}{CharCode.LineBreak}");
-                
-                if (i == lines.Count - 1)
+                selection.TypeText(line);
+                if (!isLastLine)
+                {
+                    selection.InsertBreak(WdBreakType.wdLineBreak);
+                }
+                else
                 {
                     switch (options.ParagraphEnding)
                     {
@@ -53,7 +56,7 @@ namespace UrduLanguageTools
                             throw new ArgumentOutOfRangeException(nameof(options.ParagraphEnding), options.ParagraphEnding, $"Unknown paragraph ending type: {options.ParagraphEnding}");
                     }
                 }
-                
+
                 var end = selection.End;
                 var range = selection.Document.Range(start, end);
                 lineRanges.Add(range);
@@ -63,8 +66,7 @@ namespace UrduLanguageTools
             {
                 // Go to the first line and add the ToC entry
                 var firstLine = lineRanges.First();
-                var entryRange = selection.Document.Range(firstLine.Start, firstLine.Start);
-                selection.Document.Fields.Add(entryRange, WdFieldType.wdFieldTOCEntry, $"\"{firstLine.Text.Trim()}\"");
+                firstLine.AddTableOfContentsEntry();
             }
             
             return lineRanges;

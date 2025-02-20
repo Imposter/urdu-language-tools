@@ -2,6 +2,7 @@
 using Microsoft.Office.Interop.Word;
 using System.Collections.Generic;
 using System.Linq;
+using UrduLanguageTools.Extensions;
 
 namespace UrduLanguageTools
 {
@@ -34,15 +35,18 @@ namespace UrduLanguageTools
             for (var i = 0; i < lines.Count; i++)
             {
                 var isEndOfVerse = i > 0 && (i + 1) % options.LinesPerVerse == 0;
+                var isLastLine = i == lines.Count - 1;
                 var line = lines[i];
                 var start = selection.Start;
-                selection.TypeText($"{line}{CharCode.LineBreak}");
+                selection.TypeText(line);
+                selection.InsertBreak(WdBreakType.wdLineBreak);
                 var end = selection.End;
 
                 if (isEndOfVerse)
                 {
                     var emptyLineStart = selection.Start;
-                    selection.TypeText($"{CharCode.BraillePatternBlank}{CharCode.ParagraphBreak}");
+                    selection.TypeText(CharCode.BraillePatternBlank.ToString());
+                    selection.TypeParagraph();
                     var emptyLineEnd = selection.End;
                     var emptyLineRange = selection.Document.Range(emptyLineStart, emptyLineEnd);
                     emptyLineRange.Font.Size = 1;
@@ -50,7 +54,7 @@ namespace UrduLanguageTools
                     end = emptyLineEnd;
                 }
 
-                if (i == lines.Count - 1)
+                if (isLastLine)
                 {
                     switch (options.ParagraphEnding)
                     {
@@ -77,8 +81,7 @@ namespace UrduLanguageTools
             {
                 // Go to the first line and add the ToC entry
                 var firstLine = lineRanges.First();
-                var entryRange = selection.Document.Range(firstLine.Start, firstLine.Start);
-                selection.Document.Fields.Add(entryRange, WdFieldType.wdFieldTOCEntry, $"\"{firstLine.Text.Trim()}\"");
+                firstLine.AddTableOfContentsEntry();
             }
             
             return lineRanges;
