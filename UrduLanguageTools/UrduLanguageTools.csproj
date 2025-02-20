@@ -214,7 +214,6 @@
     <Compile Include="CharCode.cs" />
     <Compile Include="Extensions\DocumentExtensions.cs" />
     <Compile Include="Extensions\DocumentSettingsExtensions.cs" />
-    <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\SelectionExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="GhazalExtensions.cs" />
