@@ -224,7 +224,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Extensions\RangeExtensions.cs" />
-    <Compile Include="Extensions\RibbonExtensions.cs" />
     <Compile Include="Ribbon.cs">
       <XmlRibbon>true</XmlRibbon>
     </Compile>
