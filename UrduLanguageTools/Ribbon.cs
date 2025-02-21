@@ -12,7 +12,7 @@ namespace UrduLanguageTools
     [ComVisible(true)]
     public partial class Ribbon : IRibbonExtensibility
     {
-        private Microsoft.Office.Interop.Word.Application App => Globals.Addin.Application;
+        private Application App => Globals.Addin.Application;
 
         private IRibbonUI ribbon;
         private List<Style> styles = new List<Style>();
