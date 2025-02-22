@@ -12,7 +12,7 @@ jobs:
   prep:
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.setup-env.outputs.version }}
+      version: ${{ steps.version.outputs.version }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
@@ -24,7 +24,6 @@ jobs:
           change_path: "UrduLanguageTools"
           version_format: "${major}.${minor}.${patch}.${increment}"
 
-
   build:
     runs-on: windows-latest
     needs: [prep]
@@ -34,12 +33,9 @@ jobs:
 
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
-  
+
       - name: Setup NuGet
         uses: NuGet/setup-nuget@v2
-        
-      - name: Navigate to Workspace
-        run: cd $GITHUB_WORKSPACE
 
       - name: Create Build Directory
         run: mkdir _build
@@ -47,50 +43,44 @@ jobs:
       - name: Restore NuGet Packages
         run: nuget restore UrduLanguageTools.sln
 
-      - name: Sign ClickOnce Manifest
+      - name: Import Code Signing Certificate
         shell: pwsh
         run: |
-          $certificateBase64 = "${{ secrets.CODE_SIGNING_CERTIFICATE }}"
-          $certificateBytes = [System.Convert]::FromBase64String($certificateBase64)
-          $certificateFilePath = "UrduLanguageTools/CodeSigningCert.pfx"
-          [System.IO.File]::WriteAllBytes($certificateFilePath, $certificateBytes)
-          Import-PfxCertificate -FilePath $certificateFilePath -Password (ConvertTo-SecureString -String "${{ secrets.CODE_SIGNING_CERTIFICATE_PASSWORD }}" -AsPlainText -Force) -CertStoreLocation Cert:\CurrentUser\My
+          ./ops/ImportCodeSigningCert.ps1 `
+            -CertificateBase64 "${{ secrets.CODE_SIGNING_CERTIFICATE }}" `
+            -CertificatePassword "${{ secrets.CODE_SIGNING_CERTIFICATE_PASSWORD }}" `
+            -CertificateFilePath "UrduLanguageTools/CodeSigningCert.pfx"
 
       - name: Build Solution
-        run: msbuild.exe UrduLanguageTools.sln /p:Platform="Any CPU" /p:Configuration="Release" /p:DeployOnBuild=true /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:PublishUrl="../_build" /p:Version=${{ needs.prep.outputs.version || '1.0.0.0' }} /p:SignManifest=true /p:ManifestCertificateThumbprint="${{ secrets.CODE_SIGNING_CERTIFICATE_THUMBPRINT }}"
-          
-#      - name: Sign ClickOnce Manifest
-#        shell: pwsh
-#        run: |
-#          # Find the app manifest in the build directory
-#          $appManifest = Get-ChildItem -Path "_build" -Filter "*.manifest" -Recurse
-#          
-#          # Sign the app manifest
-#          mage -sign $appManifest.FullName -CertFile $certificateFilePath -Password "${{ secrets.CODE_SIGNING_CERTIFICATE_PASSWORD }}"
-#          
-#          # Verify the signature
-#          mage -verify $appManifest.FullName
+        run: msbuild.exe UrduLanguageTools.sln `
+          /p:Platform="Any CPU" `
+          /p:Configuration="Release" `
+          /p:DeployOnBuild=true `
+          /p:WebPublishMethod=FileSystem `
+          /p:DeleteExistingFiles=True `
+          /p:PublishUrl="../_build" `
+          /p:Version="${{ needs.prep.outputs.version || '1.0.0.0' }}" `
+          /p:SignManifest=true `
+          /p:ManifestCertificateThumbprint="${{ secrets.CODE_SIGNING_CERTIFICATE_THUMBPRINT }}"
+        
+      - name: Copy Code Signing Certificate
+        run: cp UrduLanguageTools/CodeSigningCert.pfx _build
 
   release:
     runs-on: ubuntu-latest
     needs: [build]
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    #if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
 
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1
+        uses: fregante/release-with-changelog@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ needs.prep.outputs.version }}
-          release_name: Release ${{ needs.prep.outputs.version }}
-          body: |
-            Release ${{ needs.prep.outputs.version }}
-          draft: false
-          prerelease: false
+          title: Release ${{ needs.prep.outputs.version }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -105,6 +95,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/publish/UrduLanguageTools.zip
+          asset_path: "./_build/publish/UrduLanguageTools.zip"
           asset_name: UrduLanguageTools.zip
           asset_content_type: application/zip
