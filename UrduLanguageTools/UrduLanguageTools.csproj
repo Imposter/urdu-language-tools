@@ -283,7 +283,7 @@
     <ManifestCertificateThumbprint>6627149192EC09850CA4EE7A05628E437A9CC1FE</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>CodeSigningCert.pfx</AssemblyOriginatorKeyFile>

@@ -24,6 +24,7 @@ jobs:
           change_path: "UrduLanguageTools"
           version_format: "${major}.${minor}.${patch}.${increment}"
 
+
   build:
     runs-on: windows-latest
     needs: [prep]
@@ -39,16 +40,24 @@ jobs:
         
       - name: Navigate to Workspace
         run: cd $GITHUB_WORKSPACE
+
+      - name: Save Code Signing Certificate
+        shell: pwsh
+        run: |
+          $certificateBase64 = "${{ secrets.CODE_SIGNING_CERTIFICATE }}"
+          $certificateBytes = [System.Convert]::FromBase64String($certificateBase64)
+          $certificateFilePath = "UrduLanguageTools/CodeSigningCert.pfx"
+          [System.IO.File]::WriteAllBytes($certificateFilePath, $certificateBytes)
   
       - name: Create Build Directory
         run: mkdir _build
 
       - name: Restore NuGet Packages
-        run: dotnet restore UrduLanguageTools.sln
+        run: nuget restore UrduLanguageTools.sln
 
       - name: Build Solution
         run: |
-          msbuild.exe UrduLanguageTools.sln /nologo /nr:false /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:platform="Any CPU" /p:configuration="Release" /p:Version=${{ needs.prep.outputs.version }} /p:PublishUrl="../_build"
+          msbuild.exe UrduLanguageTools.sln /nologo /nr:false /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:platform="Any CPU" /p:configuration="Release" /p:Version=${{ needs.prep.outputs.version || '1.0.0.0' }} /p:PublishUrl="../_build"
 
   release:
     runs-on: ubuntu-latest
