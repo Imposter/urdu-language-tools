@@ -277,10 +277,8 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>CodeSigningCert.pfx</ManifestKeyFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>CodeSigningCert.pfx</AssemblyOriginatorKeyFile>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>1AF3D98C9146A3E631FAC9DEC5DA1FB2B880D521</ManifestCertificateThumbprint>
