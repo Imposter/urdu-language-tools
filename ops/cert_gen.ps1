@@ -1,21 +1,20 @@
 ﻿<#
 .SYNOPSIS
-Generates a password-less self-signed code signing certificate in PowerShell with customizable subject and organization.
+Generates a self-signed code signing certificate in PowerShell with customizable subject, organization, and optional password protection.
 
 .DESCRIPTION
-This script generates a self-signed code signing certificate (.pfx) without password protection.
+This script generates a self-signed code signing certificate (.pfx).
 It allows you to customize the certificate's Subject (Common Name, Organization, Location, State, Country)
 and other properties like DNS Name and validity period.
-
-WARNING: Password-less code signing certificates are INSECURE and should ONLY be used for TESTING.
+You can also optionally protect the generated PFX file with a password.
 
 .PARAMETER CertFilePath
-Specifies the output file path for the generated password-less .pfx certificate.
+Specifies the output file path for the generated .pfx certificate.
 Default is "CodeSigningCert.pfx".
 
 .PARAMETER SubjectName
 Specifies the Common Name (CN) for the certificate's Subject.
-Default is "TestCodeSigningCert-NoPassword".
+Default is "TestCodeSigningCert".
 
 .PARAMETER Organization
 Specifies the Organization (O) for the certificate's Subject.
@@ -39,20 +38,26 @@ Specifies the DNS name for the certificate. Default is "localhost".
 .PARAMETER YearsValid
 Specifies the validity period of the certificate in years. Default is 10.
 
+.PARAMETER PfxPassword
+[string] Optional password to protect the exported .pfx certificate.
+         If not provided, the PFX file will be generated without a password (INSECURE, for TESTING ONLY).
+
 .NOTES
 Run this script in PowerShell.
 Password-less certificates are highly discouraged for production or public code signing.
+For production, ALWAYS use a strong password to protect your code signing certificate.
 #>
 [CmdletBinding()]
 param (
     [string]$CertFilePath = "CodeSigningCert.pfx",
-    [string]$SubjectName = "TestCodeSigningCert-NoPassword",
+    [string]$SubjectName = "TestCodeSigningCert",
     [string]$Organization = "Test Organization",
     [string]$Location = "",          # Optional Location (Locality/City)
     [string]$State = "",             # Optional State/Province
     [string]$Country = "",           # Optional Country/Region (e.g., "US")
     [string]$DnsName = "localhost",
-    [int]$YearsValid = 10
+    [int]$YearsValid = 10,
+    [string]$PfxPassword = ""       # Optional password for PFX file
 )
 
 # --- Check if certificate file already exists ---
@@ -92,11 +97,19 @@ try {
     Write-Host "Subject: $($privateKey.Subject)"
     Write-Host "Thumbprint: $($privateKey.Thumbprint)"
 
-    # --- Export to PFX without Password ---
+    # --- Export to PFX with or without Password based on $PfxPassword ---
     try {
-        # Use an empty SecureString object for -Password to create a password-less PFX
-        Export-PfxCertificate -Cert $privateKey -FilePath $CertFilePath -Password ([System.Security.SecureString]::new())
-        Write-Host "Certificate exported to '$CertFilePath' (password-less)."
+        if (-not [string]::IsNullOrEmpty($PfxPassword)) {
+            # Export to PFX with Password
+            $securePassword = ConvertTo-SecureString -String $PfxPassword -AsPlainText -Force
+            Export-PfxCertificate -Cert $privateKey -FilePath $CertFilePath -Password $securePassword
+            Write-Host "Certificate exported to '$CertFilePath' (password-protected)."
+        } else {
+            # Export to PFX without Password (password-less)
+            Export-PfxCertificate -Cert $privateKey -FilePath $CertFilePath -Password ([System.Security.SecureString]::new())
+            Write-Host "Certificate exported to '$CertFilePath' (password-less)."
+            Write-Warning "WARNING: This PFX file is PASSWORD-LESS and INSECURE. Use ONLY for testing."
+        }
     }
     catch {
         Write-Error "Error exporting certificate to PFX: $_"
@@ -105,8 +118,12 @@ try {
     }
 
     Write-Host "---"
-    Write-Host "Successfully generated password-less certificate: '$CertFilePath'"
-    Write-Warning "WARNING: This PFX file is PASSWORD-LESS and INSECURE. Use ONLY for testing."
+    if (-not [string]::IsNullOrEmpty($PfxPassword)) {
+        Write-Host "Successfully generated password-protected certificate: '$CertFilePath'"
+    } else {
+        Write-Host "Successfully generated password-less certificate: '$CertFilePath'"
+    }
+
 
 } catch {
     Write-Error "Error generating self-signed certificate: $_"
