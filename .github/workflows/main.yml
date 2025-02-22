@@ -41,33 +41,35 @@ jobs:
       - name: Navigate to Workspace
         run: cd $GITHUB_WORKSPACE
 
-      - name: Save Code Signing Certificate
-        shell: pwsh
-        run: |
-          $certificateBase64 = "${{ secrets.CODE_SIGNING_CERTIFICATE }}"
-          $certificateBytes = [System.Convert]::FromBase64String($certificateBase64)
-          $certificateFilePath = "UrduLanguageTools/CodeSigningCert.pfx"
-          [System.IO.File]::WriteAllBytes($certificateFilePath, $certificateBytes)
-          Import-PfxCertificate -CertStoreLocation Cert:\CurrentUser\My -FilePath $certificateFilePath -Password (ConvertTo-SecureString -String "${{ secrets.CODE_SIGNING_CERTIFICATE_PASSWORD }}" -AsPlainText -Force)
-  
       - name: Create Build Directory
         run: mkdir _build
 
       - name: Restore NuGet Packages
         run: nuget restore UrduLanguageTools.sln
 
+      - name: Sign ClickOnce Manifest
+        shell: pwsh
+        run: |
+          $certificateBase64 = "${{ secrets.CODE_SIGNING_CERTIFICATE }}"
+          $certificateBytes = [System.Convert]::FromBase64String($certificateBase64)
+          $certificateFilePath = "UrduLanguageTools/CodeSigningCert.pfx"
+          [System.IO.File]::WriteAllBytes($certificateFilePath, $certificateBytes)
+          Import-PfxCertificate -FilePath $certificateFilePath -Password (ConvertTo-SecureString -String "${{ secrets.CODE_SIGNING_CERTIFICATE_PASSWORD }}" -AsPlainText -Force) -CertStoreLocation Cert:\CurrentUser\My
+
       - name: Build Solution
-        run: >
-          msbuild.exe UrduLanguageTools.sln
-            /p:Configuration="Release"
-            /p:DeployOnBuild=true
-            /p:WebPublishMethod=FileSystem
-            /p:DeleteExistingFiles=True
-            /p:PublishUrl="../_build"
-            /p:Version=${{ needs.prep.outputs.version || '1.0.0.0' }}
-            /p:SignManifest=true
-            /p:AssemblyOriginatorKeyFile=UrduLanguageTools/CodeSigningCert.pfx
-            /p:ManifestCertificateThumbprint=${{ secrets.CODE_SIGNING_CERTIFICATE_THUMBPRINT }}
+        run: msbuild.exe UrduLanguageTools.sln /p:Platform="Any CPU" /p:Configuration="Release" /p:DeployOnBuild=true /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:PublishUrl="../_build" /p:Version=${{ needs.prep.outputs.version || '1.0.0.0' }} /p:SignManifest=true /p:ManifestCertificateThumbprint="${{ secrets.CODE_SIGNING_CERTIFICATE_THUMBPRINT }}"
+          
+#      - name: Sign ClickOnce Manifest
+#        shell: pwsh
+#        run: |
+#          # Find the app manifest in the build directory
+#          $appManifest = Get-ChildItem -Path "_build" -Filter "*.manifest" -Recurse
+#          
+#          # Sign the app manifest
+#          mage -sign $appManifest.FullName -CertFile $certificateFilePath -Password "${{ secrets.CODE_SIGNING_CERTIFICATE_PASSWORD }}"
+#          
+#          # Verify the signature
+#          mage -verify $appManifest.FullName
 
   release:
     runs-on: ubuntu-latest
