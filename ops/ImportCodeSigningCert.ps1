@@ -2,7 +2,7 @@
     [Parameter(Mandatory=$true)]
     [string]$CertificateBase64,
 
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory=$false)]
     [string]$CertificatePassword,
 
     [Parameter(Mandatory=$false)]
@@ -24,9 +24,19 @@ try {
 
 # --- Import Code Signing Certificate to Certificate Store ---
 try {
-    Import-PfxCertificate -FilePath $CertificateFilePath `
-        -Password (ConvertTo-SecureString -String $CertificatePassword -AsPlainText -Force) `
+    if (-not [string]::IsNullOrEmpty($CertificatePassword)) {
+        # Import with Password if provided
+        $securePassword = ConvertTo-SecureString -String $CertificatePassword -AsPlainText -Force
+        Import-PfxCertificate -FilePath $CertificateFilePath `
+        -Password $securePassword `
         -CertStoreLocation $CertStoreLocation
+    } else {
+        # Import without Password if $CertificatePassword is empty
+        Import-PfxCertificate -FilePath $CertificateFilePath `
+        -Password ([System.Security.SecureString]::new()) `
+        -CertStoreLocation $CertStoreLocation
+        Write-Warning "Importing PFX without a password. This is generally discouraged for security reasons unless the PFX is intentionally password-less."
+    }
     Write-Host "Code signing certificate imported to certificate store: '$CertStoreLocation'"
 } catch {
     Write-Error "Error importing code signing certificate to certificate store: $_"
