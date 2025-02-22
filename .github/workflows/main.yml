@@ -48,6 +48,7 @@ jobs:
           $certificateBytes = [System.Convert]::FromBase64String($certificateBase64)
           $certificateFilePath = "UrduLanguageTools/CodeSigningCert.pfx"
           [System.IO.File]::WriteAllBytes($certificateFilePath, $certificateBytes)
+          Import-PfxCertificate -CertStoreLocation Cert:\CurrentUser\My -FilePath $certificateFilePath -Password (ConvertTo-SecureString -String "${{ secrets.CODE_SIGNING_CERTIFICATE_PASSWORD }}" -AsPlainText -Force)
   
       - name: Create Build Directory
         run: mkdir _build
@@ -56,8 +57,20 @@ jobs:
         run: nuget restore UrduLanguageTools.sln
 
       - name: Build Solution
-        run: |
-          msbuild.exe UrduLanguageTools.sln /nologo /nr:false /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:platform="Any CPU" /p:configuration="Release" /p:Version=${{ needs.prep.outputs.version || '1.0.0.0' }} /p:PublishUrl="../_build"
+        run: >
+          msbuild.exe UrduLanguageTools.sln 
+            /nologo 
+            /nr:false 
+            /p:DeployOnBuild=true
+            /p:WebPublishMethod=FileSystem 
+            /p:DeleteExistingFiles=True 
+            /p:platform="Any CPU" 
+            /p:configuration="Release" 
+            /p:PublishUrl="../_build"
+            /p:Version=${{ needs.prep.outputs.version || '1.0.0.0' }}
+            /p:SignManifest=true
+            /p:AssemblyOriginatorKeyFile=UrduLanguageTools/CodeSigningCert.pfx 
+            /p:ManifestCertificateThumbprint=${{ secrets.CODE_SIGNING_CERTIFICATE_THUMBPRINT }}
 
   release:
     runs-on: ubuntu-latest
