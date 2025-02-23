@@ -53,7 +53,7 @@ jobs:
 
   release:
     runs-on: windows-latest
-    needs: [build]
+    needs: [prep, build]
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
     permissions:
       contents: write
