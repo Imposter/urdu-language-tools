@@ -48,8 +48,7 @@ jobs:
       - name: Build Solution
         run: msbuild.exe UrduLanguageTools.sln `
           /p:Platform="Any CPU" `
-          /p:Configuration="Debug" `
-          /p:Version="${{ needs.prep.outputs.version }}"
+          /p:Configuration="Debug"
 
   release:
     runs-on: windows-latest
@@ -88,7 +87,7 @@ jobs:
             /t:Publish `
             /p:Platform="Any CPU" `
             /p:Configuration="Release" `
-            /p:Version="${{ needs.prep.outputs.version }}" `
+            /p:PublishVersion="${{ needs.prep.outputs.version }}" `
             /p:SignManifest=true `
             /p:ManifestCertificateThumbprint="${{ secrets.CODE_SIGNING_CERTIFICATE_THUMBPRINT }}"
           Copy-Item -Path "UrduLanguageTools/bin/Release/app.publish/*" -Destination ".build" -Recurse
