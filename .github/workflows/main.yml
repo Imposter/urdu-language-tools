@@ -111,4 +111,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release create ${{ github.ref_name }} --title "Urdu Language Tools ${{ github.ref_name }}" --generate-notes 'urdu-language-tools.zip#UrduLanguageTools VSTO Add-in'
+          gh release create ${{ github.ref_name }} --title "Urdu Language Tools ${{ github.ref_name }}" --generate-notes --draft 'urdu-language-tools.zip#UrduLanguageTools VSTO Add-in'
