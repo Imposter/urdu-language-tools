@@ -1,5 +1,5 @@
 ﻿param (
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory=$false)]
     [string]$CertificateBase64,
 
     [Parameter(Mandatory=$false)]
@@ -12,14 +12,23 @@
     [string]$CertStoreLocation = "Cert:\CurrentUser\My"
 )
 
-# --- Save Code Signing Certificate from Base64 ---
-try {
-    $certificateBytes = [System.Convert]::FromBase64String($CertificateBase64)
-    [System.IO.File]::WriteAllBytes($CertificateFilePath, $certificateBytes)
-    Write-Host "Code signing certificate saved to '$CertificateFilePath'"
-} catch {
-    Write-Error "Error saving code signing certificate to file: $_"
-    exit 1
+# If no base64 string is provided, then check if the CertificateFilePath exists
+if ([string]::IsNullOrEmpty($CertificateBase64)) {
+    if (-not (Test-Path -Path $CertificateFilePath -PathType Leaf)) {
+        Write-Error "Error: Certificate file '$CertificateFilePath' not found."
+        Write-Host "Please ensure '$CertificateFilePath' is present and is a valid PFX certificate file or provide a valid base64 string."
+        exit 1
+    }
+} else {
+    # --- Save Code Signing Certificate from Base64 ---
+    try {
+        $certificateBytes = [System.Convert]::FromBase64String($CertificateBase64)
+        [System.IO.File]::WriteAllBytes($CertificateFilePath, $certificateBytes)
+        Write-Host "Code signing certificate saved to '$CertificateFilePath'"
+    } catch {
+        Write-Error "Error saving code signing certificate to file: $_"
+        exit 1
+    }
 }
 
 # --- Import Code Signing Certificate to Certificate Store ---

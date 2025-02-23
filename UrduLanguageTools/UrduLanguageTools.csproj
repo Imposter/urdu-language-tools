@@ -244,7 +244,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include="app.config" />
-    <None Include="CodeSigningCert.pfx" />
+    <None Include="UrduLanguageTools_DeveloperKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -264,7 +264,6 @@
       <DependentUpon>Addin.Designer.xml</DependentUpon>
     </Compile>
     <AppDesigner Include="Properties\" />
-    <None Include="UrduLanguageTools_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Ribbon.xml" />
@@ -277,10 +276,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>CodeSigningCert.pfx</ManifestKeyFile>
+    <ManifestKeyFile>UrduLanguageTools_DeveloperKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>1AF3D98C9146A3E631FAC9DEC5DA1FB2B880D521</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>C4AC67EB5F5467DA4E5E9364D524F480777086D8</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
