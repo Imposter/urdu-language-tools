@@ -34,17 +34,13 @@ To build the project, follow these steps:
 
 2. Open the solution file `UrduLanguageTools.sln` in Visual Studio.
 
-3. Use the provided temporary code signing certificate located at `UrduLanguageTools/CodeSigningCert.pfx` for local development.
+3. Right-click on the project `UrduLanguageTools` and select `Properties`.
 
-4. Open the solution file `UrduLanguageTools.sln` in Visual Studio.
+4. Go to the `Signing` tab and check the box `Sign the ClickOnce manifests`.
 
-5. Right-click on the project `UrduLanguageTools` and select `Properties`.
+5. Click on the `Select from file...` button and select the provided developer code signing certificate PFX file located at `UrduLanguageTools/UrduLanguageTools_DeveloperKey.pfx`. The certificate is not password-protected.
 
-6. Go to the `Signing` tab and check the box `Sign the ClickOnce manifests`.
-
-7. Click on the `Select from file...` button and select the PFX file located at `UrduLanguageTools/CodeSigningCert.pfx`. The certificate is not password-protected.
-
-The plugin will be built and signed for local development.
+The plugin will be built for local development.
 
 ## License
 
