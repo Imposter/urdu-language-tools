@@ -93,9 +93,13 @@ jobs:
             /p:ManifestCertificateThumbprint="${{ secrets.CODE_SIGNING_CERTIFICATE_THUMBPRINT }}"
           Copy-Item -Path "UrduLanguageTools/bin/Release/app.publish/*" -Destination ".build" -Recurse
 
-      - name: Copy Code Signing Certificate
+      - name: Create Public Certificate
         shell: pwsh
-        run: Copy-Item -Path UrduLanguageTools/CodeSigningCert.pfx .build
+        run: |          
+          ./ops/ExtractCertFromCodeSigningCert.ps1 `
+            -PfxInputFile "UrduLanguageTools/CodeSigningCert.pfx" `
+            -CerOutputFile ".build/CodeSigningCert.cer" `
+            -PfxPassword "${{ secrets.CODE_SIGNING_CERTIFICATE_PASSWORD }}"
           
       - uses: vimtor/action-zip@v1.2
         with:
