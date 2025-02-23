@@ -1,0 +1,111 @@
+name: VSTO Build / Release
+
+on:
+  push:
+    branches:
+      - main
+      - actions
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  prep:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Application Version
+        id: version
+        uses: paulhatch/semantic-version@v5.4.0
+        with:
+          change_path: "UrduLanguageTools"
+          version_format: "${major}.${minor}.${patch}.${increment}"
+
+  build:
+    runs-on: windows-latest
+    needs: [prep]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v2
+
+      - name: Restore NuGet Packages
+        run: nuget restore UrduLanguageTools.sln
+
+      - name: Import Code Signing Certificate
+        shell: pwsh
+        run: ./ops/ImportCodeSigningCert.ps1 `
+          -CertificateFilePath "UrduLanguageTools/UrduLanguageTools_DeveloperKey.pfx"
+
+      - name: Build Solution
+        run: msbuild.exe UrduLanguageTools.sln `
+          /p:Platform="Any CPU" `
+          /p:Configuration="Debug" `
+          /p:Version="${{ needs.prep.outputs.version }}"
+
+  release:
+    runs-on: windows-latest
+    needs: [build]
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v2
+
+      - name: Create Build Directory
+        run: mkdir .build
+
+      - name: Restore NuGet Packages
+        run: nuget restore UrduLanguageTools.sln
+
+      - name: Import Code Signing Certificate
+        shell: pwsh
+        run: |
+          ./ops/ImportCodeSigningCert.ps1 `
+            -CertificateBase64 "${{ secrets.CODE_SIGNING_CERTIFICATE }}" `
+            -CertificatePassword "${{ secrets.CODE_SIGNING_CERTIFICATE_PASSWORD }}" `
+            -CertificateFilePath "UrduLanguageTools/CodeSigningCert.pfx"
+
+      - name: Build Solution
+        shell: pwsh
+        run: |
+          msbuild.exe UrduLanguageTools.sln `
+            /t:Publish `
+            /p:Platform="Any CPU" `
+            /p:Configuration="Release" `
+            /p:Version="${{ needs.prep.outputs.version }}" `
+            /p:SignManifest=true `
+            /p:ManifestCertificateThumbprint="${{ secrets.CODE_SIGNING_CERTIFICATE_THUMBPRINT }}"
+          Copy-Item -Path "UrduLanguageTools/bin/Release/app.publish/*" -Destination ".build" -Recurse
+
+      - name: Copy Code Signing Certificate
+        shell: pwsh
+        run: Copy-Item -Path UrduLanguageTools/CodeSigningCert.pfx .build
+          
+      - uses: vimtor/action-zip@v1.2
+        with:
+          files: .build
+          dest: urdu-language-tools.zip
+
+      - name: Create Release
+        id: create_release
+        shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create ${{ github.ref_name }} --title "Urdu Language Tools ${{ github.ref_name }}" --generate-notes 'urdu-language-tools.zip#UrduLanguageTools VSTO Add-in'

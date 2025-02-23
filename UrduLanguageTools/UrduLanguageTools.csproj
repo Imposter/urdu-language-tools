@@ -33,7 +33,7 @@
     <PublishUrl>publish\</PublishUrl>
     <InstallUrl />
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.0.2</ApplicationVersion>
+    <ApplicationVersion>1.0.0.0</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>7</UpdateInterval>
@@ -209,6 +209,14 @@
     The "AppDesigner" element specifies the directory where the application properties files
     can be found.
   -->
+  <Target Name="AfterCompile">
+    <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
+      <Output TaskParameter="Assemblies" ItemName="appAssemblyInfo"/>
+    </GetAssemblyIdentity>
+    <PropertyGroup>
+      <ApplicationVersion>%(appAssemblyInfo.Version)</ApplicationVersion>
+    </PropertyGroup>
+  </Target>
   <ItemGroup>
     <Compile Include="AppSettings.cs" />
     <Compile Include="CharCode.cs" />
@@ -244,7 +252,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <None Include="app.config" />
-    <None Include="CodeSigningCert.pfx" />
+    <None Include="UrduLanguageTools_DeveloperKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -264,7 +272,6 @@
       <DependentUpon>Addin.Designer.xml</DependentUpon>
     </Compile>
     <AppDesigner Include="Properties\" />
-    <None Include="UrduLanguageTools_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Ribbon.xml" />
@@ -277,16 +284,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>CodeSigningCert.pfx</ManifestKeyFile>
+    <ManifestKeyFile>UrduLanguageTools_DeveloperKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>6627149192EC09850CA4EE7A05628E437A9CC1FE</ManifestCertificateThumbprint>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>CodeSigningCert.pfx</AssemblyOriginatorKeyFile>
+    <ManifestCertificateThumbprint>C4AC67EB5F5467DA4E5E9364D524F480777086D8</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
