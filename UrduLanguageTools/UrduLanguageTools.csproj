@@ -33,7 +33,7 @@
     <PublishUrl>publish\</PublishUrl>
     <InstallUrl />
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.0.2</ApplicationVersion>
+    <ApplicationVersion>1.0.0.0</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>7</UpdateInterval>
@@ -209,6 +209,14 @@
     The "AppDesigner" element specifies the directory where the application properties files
     can be found.
   -->
+  <Target Name="AfterCompile">
+    <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
+      <Output TaskParameter="Assemblies" ItemName="appAssemblyInfo"/>
+    </GetAssemblyIdentity>
+    <PropertyGroup>
+      <ApplicationVersion>%(appAssemblyInfo.Version)</ApplicationVersion>
+    </PropertyGroup>
+  </Target>
   <ItemGroup>
     <Compile Include="AppSettings.cs" />
     <Compile Include="CharCode.cs" />
