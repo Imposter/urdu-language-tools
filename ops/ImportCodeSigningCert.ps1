@@ -1,4 +1,52 @@
-﻿param (
+﻿<#
+.SYNOPSIS
+Imports a code signing certificate (.pfx) into the Windows certificate store.
+
+.DESCRIPTION
+This script imports a code signing certificate from a Base64 encoded string or a .pfx file into the specified Windows certificate store location.
+It supports both password-protected and password-less PFX files.
+
+If a Base64 encoded certificate string is provided via the -CertificateBase64 parameter, the script will first decode it and save it to a .pfx file specified by -CertificateFilePath.
+If no -CertificateBase64 is provided, the script will attempt to import an existing .pfx file from the path specified by -CertificateFilePath.
+
+.PARAMETER CertificateBase64
+[string] Optional. A Base64 encoded string of the code signing certificate (.pfx).
+         If provided, the script will decode this string and save it to the file specified by -CertificateFilePath.
+         If not provided, the script assumes the .pfx file already exists at the path specified by -CertificateFilePath.
+
+.PARAMETER CertificatePassword
+[string] Optional. The password for the code signing certificate (.pfx) if it is password protected.
+         If the PFX file is password-less, you can omit this parameter.
+
+.PARAMETER CertificateFilePath
+[string] Optional. The file path where the .pfx certificate will be saved (if -CertificateBase64 is provided) or the path to an existing .pfx file to import.
+         Default: "UrduLanguageTools/CodeSigningCert.pfx"
+
+.PARAMETER CertStoreLocation
+[string] Optional. The Windows certificate store location where the certificate will be imported.
+         Default: "Cert:\CurrentUser\My" (User's personal certificate store)
+
+.NOTES
+This script requires PowerShell to run.
+It is designed to be used in automated environments like GitHub Actions or local PowerShell sessions.
+
+.EXAMPLE
+# Example 1: Import from Base64 string with password, to the default certificate store
+Import-CodeSigningCert.ps1 -CertificateBase64 "<Base64 String Here>" -CertificatePassword "YourPassword"
+
+.EXAMPLE
+# Example 2: Import from Base64 string without password, to the default certificate store
+Import-CodeSigningCert.ps1 -CertificateBase64 "<Base64 String Here>"
+
+.EXAMPLE
+# Example 3: Import an existing PFX file (password-less) to the LocalMachine certificate store
+Import-CodeSigningCert.ps1 -CertificateFilePath "C:\Certs\ExistingCert.pfx" -CertStoreLocation "Cert:\LocalMachine\My"
+
+.EXAMPLE
+# Example 4: Import an existing PFX file (password-protected) to the CurrentUser certificate store
+Import-CodeSigningCert.ps1 -CertificateFilePath "C:\Certs\SecureCert.pfx" -CertificatePassword "SecurePassword" -CertStoreLocation "Cert:\CurrentUser\My"
+#>
+param (
     [Parameter(Mandatory=$false)]
     [string]$CertificateBase64,
 
