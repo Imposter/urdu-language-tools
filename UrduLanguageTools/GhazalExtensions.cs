@@ -12,6 +12,8 @@ namespace UrduLanguageTools
         public bool AddToTableOfContents { get; set; }
 
         public ParagraphEnding ParagraphEnding { get; set; }
+        
+        public string ParagraphEndingPattern { get; set; }
 
         public int LinesPerVerse { get; set; }
     }
@@ -29,7 +31,12 @@ namespace UrduLanguageTools
             selection.ParagraphFormat.ReadingOrder = WdReadingOrder.wdReadingOrderRtl;
             selection.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphJustify;
 
-            var lineRanges = selection.InsertLines(lines, options.LinesPerVerse, options.ParagraphEnding);
+            var lineRanges = selection.InsertLines(lines, new LineGroupOptions
+            {
+                LinesPerGroup = options.LinesPerVerse,
+                ParagraphEnding = options.ParagraphEnding,
+                ParagraphEndingPattern = options.ParagraphEndingPattern
+            });
 
             if (options.AddToTableOfContents)
             {

@@ -4,9 +4,18 @@ using System;
 
 namespace UrduLanguageTools.Extensions
 {
+    public class LineGroupOptions
+    {
+        public int? LinesPerGroup { get; set; }
+        
+        public ParagraphEnding ParagraphEnding { get; set; } = ParagraphEnding.None;
+        
+        public string ParagraphEndingPattern { get; set; } = string.Empty;
+    }
+    
     public static class SelectionExtensions
     {
-        public static IReadOnlyList<Range> InsertLines(this Selection selection, IReadOnlyList<string> lines, int? linesPerGroup = null, ParagraphEnding paragraphEnding = ParagraphEnding.None)
+        public static IReadOnlyList<Range> InsertLines(this Selection selection, IReadOnlyList<string> lines, LineGroupOptions options)
         {
             var lineRanges = new List<Range>();
             for (var i = 0; i < lines.Count; i++)
@@ -17,7 +26,7 @@ namespace UrduLanguageTools.Extensions
                 selection.TypeText(line);
                 selection.InsertBreak(WdBreakType.wdLineBreak);
 
-                if (linesPerGroup != null && i > 0 && (i + 1) % linesPerGroup == 0)
+                if (options.LinesPerGroup != null && i > 0 && (i + 1) % options.LinesPerGroup == 0)
                 {
                     var emptyLineStart = selection.Start;
                     selection.TypeText(CharCode.BraillePatternBlank.ToString());
@@ -29,7 +38,15 @@ namespace UrduLanguageTools.Extensions
 
                 if (isLastLine)
                 {
-                    switch (paragraphEnding)
+                    // Insert the paragraph ending if specified
+                    if (!string.IsNullOrEmpty(options.ParagraphEndingPattern))
+                    {
+                        // Align text to the center
+                        selection.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
+                        selection.TypeText(options.ParagraphEndingPattern);
+                    }
+                    
+                    switch (options.ParagraphEnding)
                     {
                         case ParagraphEnding.Page:
                             selection.InsertBreak(WdBreakType.wdPageBreak);
@@ -40,7 +57,7 @@ namespace UrduLanguageTools.Extensions
                         case ParagraphEnding.None:
                             break;
                         default:
-                            throw new ArgumentOutOfRangeException(nameof(paragraphEnding), paragraphEnding, $"Unknown paragraph ending type: {paragraphEnding}");
+                            throw new ArgumentOutOfRangeException(nameof(options.ParagraphEnding), options.ParagraphEnding, $"Unknown paragraph ending type: {options.ParagraphEnding}");
                     }
                 }
 

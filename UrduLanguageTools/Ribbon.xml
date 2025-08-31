@@ -66,6 +66,15 @@
                               getItemCount="LinesPerVerse_ItemSource_Count"
                               getItemLabel="LinesPerVerse_ItemSource_Label"
                               getSelectedItemIndex="LinesPerVerse_ItemSource_GetSelectedItemIndex" />
+
+                    <checkBox id="UseParagraphEndingPattern"
+                              label="Use Paragraph Ending Pattern"
+                              onAction="UseParagraphEndingPattern_Checked"
+                              getPressed="UseParagraphEndingPattern_GetPressed" />
+
+                    <editBox id="ParagraphEndingPattern"
+                              label="Paragraph Ending Pattern"
+                              onChange="ParagraphEndingPattern_Change" />
                 </group>
             </tab>
         </tabs>

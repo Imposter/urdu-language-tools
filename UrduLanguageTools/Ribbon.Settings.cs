@@ -132,6 +132,21 @@ namespace UrduLanguageTools
             return Array.IndexOf(LinesPerVerses, linesPerVerse);
         }
 
+        public void UseParagraphEndingPattern_Checked(IRibbonControl control, bool isChecked)
+        {
+            App.ActiveDocument.SetSetting<AppSettings, bool>((s, v) => s.UseParagraphEndingPattern = v, isChecked);
+        }
+        
+        public bool UseParagraphEndingPattern_GetPressed(IRibbonControl control)
+        {
+            return App.ActiveDocument.GetSetting<AppSettings, bool>(s => s.UseParagraphEndingPattern);
+        }
+        
+        public void ParagraphEndingPattern_Change(IRibbonControl control, string text)
+        {
+            App.ActiveDocument.SetSetting<AppSettings, string>((s, v) => s.ParagraphEndingPattern = v, text);
+        }
+
         #endregion
     }
 }

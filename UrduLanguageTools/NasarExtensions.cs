@@ -12,6 +12,8 @@ namespace UrduLanguageTools
         public bool AddToTableOfContents { get; set; }
 
         public ParagraphEnding ParagraphEnding { get; set; }
+        
+        public string ParagraphEndingPattern { get; set; }
     }
     
     public static class NasarExtensions
@@ -27,7 +29,11 @@ namespace UrduLanguageTools
             selection.ParagraphFormat.ReadingOrder = WdReadingOrder.wdReadingOrderRtl;
             selection.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
 
-            var lineRanges = selection.InsertLines(lines, paragraphEnding: options.ParagraphEnding);
+            var lineRanges = selection.InsertLines(lines, new LineGroupOptions
+            {
+                ParagraphEnding = options.ParagraphEnding,
+                ParagraphEndingPattern = options.ParagraphEndingPattern
+            });
 
             if (options.AddToTableOfContents)
             {

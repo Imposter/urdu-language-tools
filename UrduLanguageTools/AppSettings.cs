@@ -13,6 +13,10 @@
 
         public ParagraphEnding ParagraphEnding { get; set; } = ParagraphEnding.Page;
         
+        public string ParagraphEndingPattern { get; set; } = string.Empty;
+        
+        public bool UseParagraphEndingPattern { get; set; } = false;
+        
         public int LinesPerVerse { get; set; } = 2;
         
         public string GhazalParagraphStyle { get; set; } = "Normal";

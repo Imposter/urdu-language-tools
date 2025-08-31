@@ -41,7 +41,8 @@ namespace UrduLanguageTools
                         ParagraphStyle = paragraphStyle,
                         AddToTableOfContents = settings.AddToTableOfContents,
                         LinesPerVerse = settings.LinesPerVerse,
-                        ParagraphEnding = settings.ParagraphEnding
+                        ParagraphEnding = settings.ParagraphEnding,
+                        ParagraphEndingPattern = settings.UseParagraphEndingPattern ? settings.ParagraphEndingPattern : string.Empty
                     });
                     break;
                 case "PasteNazam":
@@ -49,7 +50,8 @@ namespace UrduLanguageTools
                     {
                         ParagraphStyle = paragraphStyle,
                         AddToTableOfContents = settings.AddToTableOfContents,
-                        ParagraphEnding = settings.ParagraphEnding
+                        ParagraphEnding = settings.ParagraphEnding,
+                        ParagraphEndingPattern = settings.UseParagraphEndingPattern ? settings.ParagraphEndingPattern : string.Empty
                     });
                     break;
                 case "PasteNasar":
@@ -57,7 +59,8 @@ namespace UrduLanguageTools
                     {
                         ParagraphStyle = paragraphStyle,
                         AddToTableOfContents = settings.AddToTableOfContents,
-                        ParagraphEnding = settings.ParagraphEnding
+                        ParagraphEnding = settings.ParagraphEnding,
+                        ParagraphEndingPattern = settings.UseParagraphEndingPattern ? settings.ParagraphEndingPattern : string.Empty
                     });
                     break;
                 default:
@@ -99,7 +102,8 @@ namespace UrduLanguageTools
                         ParagraphStyle = paragraphStyle,
                         AddToTableOfContents = settings.AddToTableOfContents,
                         LinesPerVerse = settings.LinesPerVerse,
-                        ParagraphEnding = settings.ParagraphEnding
+                        ParagraphEnding = settings.ParagraphEnding,
+                        ParagraphEndingPattern = settings.UseParagraphEndingPattern ? settings.ParagraphEndingPattern : string.Empty
                     });
                     break;
                 case "FormatNazam":
@@ -107,7 +111,8 @@ namespace UrduLanguageTools
                     {
                         ParagraphStyle = paragraphStyle,
                         AddToTableOfContents = settings.AddToTableOfContents,
-                        ParagraphEnding = settings.ParagraphEnding
+                        ParagraphEnding = settings.ParagraphEnding,
+                        ParagraphEndingPattern = settings.UseParagraphEndingPattern ? settings.ParagraphEndingPattern : string.Empty
                     });
                     break;
                 case "FormatNasar":
@@ -115,7 +120,8 @@ namespace UrduLanguageTools
                     {
                         ParagraphStyle = paragraphStyle,
                         AddToTableOfContents = settings.AddToTableOfContents,
-                        ParagraphEnding = settings.ParagraphEnding
+                        ParagraphEnding = settings.ParagraphEnding,
+                        ParagraphEndingPattern = settings.UseParagraphEndingPattern ? settings.ParagraphEndingPattern : string.Empty
                     });
                     break;
                 default:
