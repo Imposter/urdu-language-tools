@@ -42,8 +42,10 @@ namespace UrduLanguageTools.Extensions
                     if (!string.IsNullOrEmpty(options.ParagraphEndingPattern))
                     {
                         // Align text to the center
+                        var originalAlignment = selection.ParagraphFormat.Alignment;
                         selection.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;
                         selection.TypeText(options.ParagraphEndingPattern);
+                        selection.ParagraphFormat.Alignment = originalAlignment;
                     }
                     
                     switch (options.ParagraphEnding)
